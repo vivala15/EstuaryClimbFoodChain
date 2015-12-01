@@ -11,8 +11,8 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	
 	//HashMap for fast lookup when map densely populated
 	private AnimalNeighborhood neighborhood;
-	private double DEPTH = 25;
-	private double WIDTH = 80;
+	private static double DEPTH = 25;
+	private static double WIDTH = 80;
 	private Random rand;
 	
 	public WorldModel(){

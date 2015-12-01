@@ -10,7 +10,9 @@ import java.util.List;
  */
 public enum Animal{
 	
-	Seal(5, "seal",1,6, new BrownianMotion()){
+	//Constructor info
+	//int speed, String animationFolderName,int speciesCount, int animationSeqLength,MovementStrategy ms
+	Seal(5, "seal",2,6, new BrownianMotion()){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
 			this.getMovementStrategy().setMove(animalEntity, model);
@@ -19,13 +21,13 @@ public enum Animal{
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
 			
 		}
 		
 		
 	},
-	Fish(6, "fish",1,6,new BrownianMotion()){
+	Fish(6, "fish",10,6,new BrownianMotion()){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -35,12 +37,12 @@ public enum Animal{
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
 			
 		}
 		
 	},
-	Shrimp(3, "shrimp",1,6,new BrownianMotion()){
+	Shrimp(3, "shrimp",20,6,new BrownianMotion()){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -50,12 +52,12 @@ public enum Animal{
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
 			
 		}
 		
 	},
-	Plankton(5, "plankton", 1,6,new BrownianMotion()){
+	Plankton(5, "plankton", 30,6,new BrownianMotion()){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -65,7 +67,7 @@ public enum Animal{
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
 			
 		}
 		
