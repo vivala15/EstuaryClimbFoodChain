@@ -92,20 +92,21 @@ public class StartScreen extends JFrame {
 		splash.splashOn();
 		try {
 			
+			//Shorted for more effective testing
 			splash.setProgress(10, "Starting");
-			Thread.sleep(1000);
+			Thread.sleep(50);
 
 			splash.setProgress(30, "Starting");
-			Thread.sleep(1500);
+			Thread.sleep(75);
 
 			splash.setProgress(60, "Loading");
-			Thread.sleep(1500);
+			Thread.sleep(50);
 
 			splash.setProgress(90, "Finishing");
-			Thread.sleep(1000);
+			Thread.sleep(50);
 
 			splash.setProgress(99, "Finishing");
-			Thread.sleep(300);
+			Thread.sleep(20);
 			
 			splash.splashOff();
 			
