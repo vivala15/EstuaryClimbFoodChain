@@ -32,8 +32,8 @@ public class Player {
 		}
 //		System.out.println(playerEntity.getDirection().getX());
 //		System.out.println(playerEntity.getDirection().getY());
-		System.out.println(pointer);
-		System.out.println(position);
+//		System.out.println(pointer);
+//		System.out.println(position);
 //		playerEntity.setPosition(new Vector2D(pointer.getX(), pointer.getY()));
 		
 	}

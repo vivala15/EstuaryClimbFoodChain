@@ -99,9 +99,9 @@ public class ViewingPanel extends JPanel{
 		
 		
 		//Draw Entities
-		System.out.println("Drawing number entities: " + toBeDrawnAnimals.size());
+//		System.out.println("Drawing number entities: " + toBeDrawnAnimals.size());
 		for(AnimalEntity entity : toBeDrawnAnimals ){
-			System.out.println((int)entity.getPosition().getY());
+//			System.out.println((int)entity.getPosition().getY());
 			g.drawImage(entity.getDrawable(),
 					(int)((entity.getPosition().getX()+cameraShift.getX())*this.WORLD_TO_PIXEL /*+frame.getWidth()/2.0 */),
 					(int)((entity.getPosition().getY()+cameraShift.getY())*this.WORLD_TO_PIXEL /* +frame.getHeight()/2.0*/),
@@ -174,9 +174,9 @@ public class ViewingPanel extends JPanel{
 		//backgroundImage = seqImage;
 		//int imageHeight = backgroundImage.getHeight();
 		double scale = this.worldHeight*this.WORLD_TO_PIXEL / seqImage.getHeight();
-		System.out.println(scale);
-		System.out.println(this.worldHeight);
-		System.out.println(seqImage.getHeight());
+//		System.out.println(scale);
+//		System.out.println(this.worldHeight);
+//		System.out.println(seqImage.getHeight());
 		//Scale to appropriate size
 		int w = (int) (scale*seqImage.getWidth());
 		int h = (int) (scale*seqImage.getHeight());

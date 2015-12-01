@@ -10,11 +10,10 @@ import java.util.List;
  */
 public enum Animal{
 	
-	Seal(5, "seal",1,6){
-		
+	Seal(5, "seal",1,6, new BrownianMotion()){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			this.getMovementStrategy().setMove(animalEntity, model);
 			
 		}
 
@@ -26,11 +25,11 @@ public enum Animal{
 		
 		
 	},
-	Fish(6, "fish",1,6){
+	Fish(6, "fish",1,6,new BrownianMotion()){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated mthod stub
+			this.getMovementStrategy().setMove(animalEntity, model);
 			
 		}
 
@@ -41,11 +40,11 @@ public enum Animal{
 		}
 		
 	},
-	Shrimp(3, "shrimp",1,6){
+	Shrimp(3, "shrimp",1,6,new BrownianMotion()){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			this.getMovementStrategy().setMove(animalEntity, model);
 			
 		}
 
@@ -56,11 +55,11 @@ public enum Animal{
 		}
 		
 	},
-	Plankton(5, "plankton", 1,6){
+	Plankton(5, "plankton", 1,6,new BrownianMotion()){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
-			// TODO Auto-generated method stub
+			this.getMovementStrategy().setMove(animalEntity, model);
 			
 		}
 
@@ -80,13 +79,21 @@ public enum Animal{
 	private int maxAnimationFrame = 0;
 	private int INTENDED_SPECIES_COUNT = 0;
 	private int numberOfSpecies = 0;
+	private MovementStrategy ms;
 	
-	private Animal(int speed, String animationFolderName, int speciesCount, int animationSeqLength){
+	private Animal(int speed, String animationFolderName,
+			int speciesCount, int animationSeqLength,
+			MovementStrategy ms){
 		this.INTENDED_SPECIES_COUNT = speciesCount;
 		this.speed = speed;
 		this.animationFolderName = animationFolderName;
 		this.maxAnimationFrame = animationSeqLength;
+		this.ms = ms;
 	}
+	public MovementStrategy getMovementStrategy(){
+		return this.ms;
+	}
+	
 	public String getAnimationFolderName(){
 		return this.animationFolderName;
 	}

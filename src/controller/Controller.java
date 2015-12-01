@@ -62,9 +62,10 @@ public class Controller {
     
     public void run(){
     	
+    	/**
+    	 * Loop broken on exit, may have to add a button for full screen mode
+    	 */
     	while(true){
-    		System.out.println("Repaint");
-    		System.out.println("After paint");
     		player.readInput();
     		
     		model.takeStep();

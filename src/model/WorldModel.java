@@ -27,9 +27,9 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		}
 		
 		//if any animals need to added or replaced , do that here
-		System.out.println("replenish");
-		System.out.println(Animal.Seal.getNumberOfSpecies());
-		System.out.println(Animal.Fish.getNumberOfSpecies());
+//		System.out.println("replenish");
+//		System.out.println(Animal.Seal.getNumberOfSpecies());
+//		System.out.println(Animal.Fish.getNumberOfSpecies());
 		replenishWildLife();
 	}
 	

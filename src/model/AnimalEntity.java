@@ -14,6 +14,8 @@ public class AnimalEntity {
 	private int animationFrame = 0;
 	private int maxAnimationFrame = 1;
 	
+	public long timeOfLastMove = 0;
+	
 	Animal myFlyweight;
 	
 	public AnimalEntity(Animal myFlyweight, Vector2D position){
@@ -25,6 +27,7 @@ public class AnimalEntity {
 	
 	
 	public void takeStep(float dt, WorldModel model){
+		this.myFlyweight.move(this, model);
 		
 		this.position.addX(this.myFlyweight.getSpeed()* direction.getX() * dt);
 		this.position.addY(this.myFlyweight.getSpeed()* direction.getY() * dt);
