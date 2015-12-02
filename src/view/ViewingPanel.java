@@ -95,7 +95,6 @@ public class ViewingPanel extends JPanel{
 					(int)(cameraShift.getY()*this.WORLD_TO_PIXEL), this);
 	
 		}
-//		g.drawImage(this.backgroundImage, 0, 0, this);
 		
 		
 		//Draw Entities

@@ -3,12 +3,16 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+
+import toolbox.Vector2D;
 
 public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 
 	//HashMap for fast lookup when map densely populated
 	private HashMap<Integer,List<AnimalEntity>> creatureEntities = new HashMap<Integer,List<AnimalEntity>>();
+	private ArrayList<AnimalEntity> toBeRemoved = new ArrayList<AnimalEntity>();
 	private final int numberOfBuckets = 10;
 	private int entityCursor = 0;
 	private int bucketCursor = 0;
@@ -24,7 +28,13 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 	@Override
 	public boolean hasNext() {
 		boolean hasNext = false;
-		if(entityCursor < this.creatureEntities.get(bucketCursor).size()){
+		//!this.creatureEntities.get(bucketCursor).isEmpty() && 
+		if(bucketCursor >= this.numberOfBuckets){
+			hasNext = false;
+			entityCursor = 0;
+			bucketCursor = 0;
+		}
+		else if(entityCursor < this.creatureEntities.get(bucketCursor).size()){
 			hasNext = true;
 		}else{
 			//has a next if there is a further non empty bucket
@@ -66,8 +76,9 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 	}
 
 	public void addAnimal(AnimalEntity entity) {
-		double x = entity.getDirection().getX();
+		double x = entity.getPosition().getX();
 		int bucket = (int) ( x/this.width * this.numberOfBuckets);
+		//System.out.println("place in bucket..." + bucket);
 		this.creatureEntities.get(bucket).add(entity);
 	}
 	
@@ -92,6 +103,61 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 			addAnimal(entity);
 		}
 	}
+
+	/**
+	 * This is called throughout iteration of the neighborhood as a result can't remove
+	 * them while iterating as that will break the iterator, so mark ones for removal and 
+	 * call that at end of step
+	 * @param prey
+	 */
+	public void removeAnimal(AnimalEntity prey) {
+		toBeRemoved.add(prey);
+	}
 	
+	/**
+	 * Removes from neighborhood, because neighborhood is updated every turn... the prey
+	 * should be in the proper bucket, if not search whole grid as fail safe but trigger
+	 * an error message
+	 * @param prey
+	 */
+	public void executeRemoveAnimals(){
+		for (AnimalEntity prey : toBeRemoved) {
+			int bucket = Math.min(Math.max(0, (int) (prey.getPosition().getX() / this.width * this.numberOfBuckets)),
+					9);
+			boolean removed = this.creatureEntities.get(bucket).remove(prey);
+			if (!removed) {
+				System.err.println("ANIMAL TO BE REMOVED WAS NOT IN ITS PROPER BUCKET!!!");
+				System.err.println("This may correspond to severe logic bugs, address this");
+			}
+		}
+		toBeRemoved.clear();
+	}
+	
+	/**
+	 * I would just like to say I am especially ashamed of this method and its poor
+	 * coding quality, actually most of this class for that matter, there are so
+	 * many better and safer ways to carry out these operations
+	 * @param position
+	 * @param rangeVector2D
+	 * @return
+	 */
+	public LinkedList<AnimalEntity> getNearAnimals(Vector2D position, double rangeVector2D ){
+		//determine bucket of interest -- pushing result to 0 or 10 if under or over
+		int centerBucket = Math.min(Math.max(0,(int) (position.getX()/ this.width * this.numberOfBuckets)),9);
+		//lazy evaluation, for now return the contents of this bucket and the two neigbors
+		//even lazier memory managment, create new lists, LOL THIS IS HORRIBLE
+		LinkedList<AnimalEntity> nearbyAnimals = new LinkedList<>();
+		//i'm so lazy
+		//System.out.println("Center Bucket" + centerBucket);
+		if(centerBucket > 1){
+			nearbyAnimals.addAll(this.creatureEntities.get(centerBucket-1));
+		}
+		nearbyAnimals.addAll(this.creatureEntities.get(centerBucket));
+		//so sloppy
+		if(centerBucket < this.numberOfBuckets -1){
+			nearbyAnimals.addAll(this.creatureEntities.get(centerBucket+1));
+		}
+		return nearbyAnimals;
+	}
 	
 }

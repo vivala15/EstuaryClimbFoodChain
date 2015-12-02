@@ -52,6 +52,10 @@ public class Vector2D {
 	public static Vector2D sum(Vector2D a, Vector2D b){
 		return new Vector2D(a.getX()+b.getX(), a.getY()+ b.getY());
 	}
+	
+	public static double distanceSquared(Vector2D a, Vector2D b){
+		return Math.pow(a.getX()-b.getX(),2) + Math.pow(a.getY() - b.getY(), 2);
+	}
 	public Vector2D add(Vector2D other){
 		this.x += other.getX();
 		this.y += other.getY();

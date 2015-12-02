@@ -13,6 +13,7 @@ public class AnimalEntity {
 	Vector2D direction;
 	private int animationFrame = 0;
 	private int maxAnimationFrame = 1;
+	private int foodLevel = 0;
 	
 	public long timeOfLastMove = 0;
 	
@@ -27,7 +28,7 @@ public class AnimalEntity {
 	
 	
 	public void takeStep(float dt, WorldModel model){
-		this.myFlyweight.move(this, model);
+		//this.myFlyweight.move(this, model);
 		
 		this.position.addX(this.myFlyweight.getSpeed()* direction.getX() * dt);
 		this.position.addY(this.myFlyweight.getSpeed()* direction.getY() * dt);
@@ -58,6 +59,10 @@ public class AnimalEntity {
 
 	public void setDirection(Vector2D direction) {
 		this.direction = direction;
+	}
+	
+	public void digestAnimal(AnimalEntity darwinsLoser){
+		this.foodLevel += darwinsLoser.myFlyweight.getFoodValue();
 	}
 	
 	

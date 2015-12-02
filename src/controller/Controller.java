@@ -85,7 +85,11 @@ public class Controller {
     }
 	
     public  void drawEntities(){
+//    	int count = 0;
     	for(AnimalEntity animal : model){
+    		//damn this worked when they were all in the first bucket lol
+//    		System.out.println(count);
+//    		count++;
     		window.getPanel().drawEntity(animal);
     	}
     }

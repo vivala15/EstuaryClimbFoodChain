@@ -71,7 +71,7 @@ public class AssetLoader {
     		return bufferedImage;
     	} catch (IOException e) {
     		System.err.println("Could not read file: " + fileLoc);
-    		e.printStackTrace();
+    		//e.printStackTrace();
     	}
     	return null;
     }

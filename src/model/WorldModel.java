@@ -1,7 +1,9 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,13 +20,20 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	public WorldModel(){
 		neighborhood = new AnimalNeighborhood(WIDTH);
 		rand = new Random();
+		//Assign enums, not sure where else to put this, as it can't be in enum constructor
+		for(Animal animal : Animal.values()){
+			animal.assignPrey();
+		}
 	}
 
 	public void takeStep(){
-		
+		this.neighborhood.updateNeighborhood();
 		for(AnimalEntity animal: this){
 			animal.takeStep(.1f, this);
 		}
+		//only after iterating the animals call this
+		//FATAL ERROR If method below called during iteration of this class
+		this.neighborhood.executeRemoveAnimals();
 		
 		//if any animals need to added or replaced , do that here
 //		System.out.println("replenish");
@@ -35,8 +44,11 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	
 	
 	public void replenishWildLife(){
+		//System.out.println("Call replenish");
 		for(Animal animal : Animal.values()){
+			//System.out.println(animal);
 			while(animal.getNumberOfSpecies() < animal.getINTENDED_SPECIES_COUNT()){
+				//System.out.println(animal.getNumberOfSpecies());
 				addAnimal(animal);
 			}
 		}
@@ -62,9 +74,19 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	
 	
 	public List<AnimalEntity> getNearbyAnimals(Vector2D position, double range){
-		return null;
-		
+		//gets all in adjacent buckets
+		LinkedList<AnimalEntity> list =  this.neighborhood.getNearAnimals(position, range);	
+		ArrayList<AnimalEntity> inRangeAnimals = new ArrayList<>(list.size());
+		//now prune based on distance -- don't mess with removing from list being iterated...
+		for(AnimalEntity rangeCheckEntity : list){
+			if(Vector2D.distanceSquared(position, rangeCheckEntity.getPosition()) < range*range){
+				inRangeAnimals.add(rangeCheckEntity);
+			}
+		}
+
+		return inRangeAnimals;	
 	}
+	
 	public double getDEPTH() {
 		return DEPTH;
 	}
@@ -73,6 +95,11 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		return WIDTH;
 	}
 
+	
+	public void wasConsumed(AnimalEntity prey){
+		prey.myFlyweight.setNumberOfSpecies(prey.myFlyweight.getNumberOfSpecies() - 1);
+		this.neighborhood.removeAnimal(prey);
+	}
 	
 	
 
