@@ -86,7 +86,7 @@ public class StartScreen extends JFrame {
 		
 		setVisible(false);
 
-		JSplash splash = new JSplash(this.getClass().getResource("res/splash.png"), true, true, false, "Ver. 0.0.1", null, Color.white, Color.CYAN);
+		JSplash splash = new JSplash(this.getClass().getResource("/Image/splash.png"), true, true, false, "Ver. 0.0.1", null, Color.white, Color.CYAN);
 
 		splash.setBounds(300, 200, 512, 356);
 		splash.splashOn();
