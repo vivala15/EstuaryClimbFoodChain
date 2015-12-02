@@ -9,6 +9,7 @@ import model.AnimalEntity;
 import model.WorldModel;
 import toolbox.Mouse;
 import toolbox.Vector2D;
+import view.OptionsPanel;
 import view.StartScreen;
 import view.ViewingWindow;
 
@@ -16,10 +17,12 @@ import view.ViewingWindow;
 public class Controller {
 
 	ViewingWindow window;
+	OptionsPanel panel;
 	WorldModel model;
 	AssetLoader loader;
 	Player player;
 	public static int i = 0;
+	public static GameMode GAME_MODE = GameMode.FIXED_POPULATION;
 	
 	public Controller(){
 		model = new WorldModel();
@@ -29,24 +32,24 @@ public class Controller {
 	
 	 //Make frame, loop on repaint and wait
     public static void main(String[] args) {
-    	StartScreen s = new StartScreen();
-
-		while (i == 0) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		s.startProgressScreen();
-		
-//    	Controller controller = new Controller();
-//    	
+//    	StartScreen s = new StartScreen();
 //
-//    	controller.intializeWorld();
-//    	controller.initGame();
-//    	controller.run();
+//		while (i == 0) {
+//			try {
+//				Thread.sleep(100);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		s.startProgressScreen();
+		
+    	Controller controller = new Controller();
+    	
+
+    	controller.intializeWorld();
+    	controller.initGame();
+    	controller.run();
     
     	
     }
@@ -65,7 +68,7 @@ public class Controller {
      * Set level specific features such as player 
      */
     public void initGame(){
-    	AnimalEntity playerAnimal = new AnimalEntity(Animal.Shrimp, new Vector2D(1,2));
+    	AnimalEntity playerAnimal = new AnimalEntity(Animal.Shrimp, new Vector2D(model.getWIDTH()/2,model.getDEPTH() - 5));
     	player = new Player(playerAnimal, new Mouse(window));
     	window.getPanel().setPlayer(player);
     	model.addPlayerAnimal(playerAnimal);
@@ -88,6 +91,12 @@ public class Controller {
     		
     		window.getFrame().repaint();
     		
+    		if(player.hasWon() || player.hasLost()){
+    			System.out.println("Player has: " + player.hasWon);
+    			break;
+    		}
+    		//THIS IS  horrible loop stratgey, the absolute worst
+    		//TODO: rewrite a proper loop that counts elapsed time....
     		try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -95,9 +104,40 @@ public class Controller {
 				e.printStackTrace();
 			}
     	}
-  
+    	System.out.println("open options");
+    	//Outside loop, either lost, or won, or will eventually add, paused the game
+    	openOptions(player.hasWon(), player.hasLost());
+    	
+    	
     }
 	
+    private void openOptions(boolean won, boolean lost){
+    	//for now jsut restart
+    	playAgainCallBack();
+
+    	
+//    	panel = new OptionsPanel(this, won, lost);
+//    	this.window.getFrame().getContentPane().add(panel);
+    }
+    
+    public void playAgainCallBack(){
+    	for(Animal animal : Animal.values()){
+    		animal.setNumberOfSpecies(0);
+    	}
+    	model = new WorldModel();
+    	initGame();
+    	run();
+    }
+    
+    public void exitCallBack(){
+    	
+    }
+
+	public void continueCallBack() {
+		// TODO Auto-generated method stub
+		
+	}
+    
     public  void drawEntities(){
 //    	int count = 0;
     	for(AnimalEntity animal : model){
@@ -107,6 +147,7 @@ public class Controller {
     		window.getPanel().drawEntity(animal);
     	}
     }
+
 	
 	
 }

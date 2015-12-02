@@ -19,10 +19,10 @@ public class BrownianMotion implements MovementStrategy{
 		//every ceratin amount of time give a new random direction
 		long currentTime = System.currentTimeMillis();
 		long elapsedTime = currentTime - animalEntity.timeOfLastMove;
-		System.out.println("how long");
-		System.out.println(elapsedTime);
+//		System.out.println("how long");
+//		System.out.println(elapsedTime);
 		if(elapsedTime > MOVE_PERIOD){
-			System.out.println("New Direction-------------------------------------------");
+//			System.out.println("New Direction-------------------------------------------");
 			animalEntity.timeOfLastMove = currentTime;
 			animalEntity.setDirection(new Vector2D(2*rand.nextDouble()-1.0, 2*rand.nextDouble()-1.0));
 			animalEntity.getDirection().normalize();

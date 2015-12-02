@@ -33,6 +33,7 @@ public class CollisionHandler {
 				if(entity.myFlyweight.getPreyList().contains(animEntity.myFlyweight)){
 					model.wasConsumed(animEntity);  //remove consumed animal
 					entity.digestAnimal(animEntity); //compensate food value
+					animEntity.setLiving(false);	//let entity know it died
 				}
 			}
 		}

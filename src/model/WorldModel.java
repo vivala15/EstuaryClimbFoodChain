@@ -31,7 +31,7 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		this.neighborhood.updateNeighborhood();
 		
 		for(AnimalEntity animal: this){
-			animal.takeStep(.1f, this);
+			animal.takeStep(.05f, this);
 		}
 		//only after iterating the animals call this
 		//FATAL ERROR If method below called during iteration of this class
@@ -102,6 +102,7 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		prey.myFlyweight.setNumberOfSpecies(prey.myFlyweight.getNumberOfSpecies() - 1);
 		this.neighborhood.removeAnimal(prey);
 	}
+
 	
 	
 

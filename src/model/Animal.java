@@ -13,7 +13,7 @@ public enum Animal{
 	
 	//Constructor info
 	//int speed, String animationFolderName,int speciesCount, int animationSeqLength,MovementStrategy ms
-	Seal(5, "seal",2,1, new BrownianMotion(), 200){
+	Seal(5, "seal",2,6, new BrownianMotion(), 200,400){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
 			this.getMovementStrategy().setMove(animalEntity, model);
@@ -31,12 +31,13 @@ public enum Animal{
 			ArrayList<Animal> prey = new ArrayList<Animal>();
 			prey.add(Animal.Fish );
 			this.setPreyList(prey);
-			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
 		}
 		
 		
 	},
-	Fish(6, "fish",1,6,new BrownianMotion(), 25){
+	Fish(6, "fish",5,6,new BrownianMotion(), 25,50){
 
 		
 		@Override
@@ -56,10 +57,14 @@ public enum Animal{
 			ArrayList<Animal> prey = new ArrayList<Animal>();
 			prey.add(Animal.Shrimp );
 			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			predator.add(Animal.Seal);
+			this.setPredatorList(predator);
 		}
 		
 	},
-	Shrimp(3, "shrimp",1,6,new BrownianMotion(), 5){
+	Shrimp(4, "shrimp",15,6,new BrownianMotion(), 5,10){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -78,10 +83,14 @@ public enum Animal{
 			ArrayList<Animal> prey = new ArrayList<Animal>();
 			prey.add( Animal.Plankton);
 			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			predator.add(Animal.Fish);
+			this.setPredatorList(predator);
 		}
 		
 	},
-	Plankton(1, "plankton", 50,6,new BrownianMotion(), 1){
+	Plankton(1, "plankton", 50,6,new BrownianMotion(), 1,4){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -98,6 +107,10 @@ public enum Animal{
 		public void assignPrey() {
 			ArrayList<Animal> prey = new ArrayList<>();
 			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			predator.add(Animal.Shrimp);
+			this.setPredatorList(predator);
 		}
 		
 	};
@@ -113,15 +126,20 @@ public enum Animal{
 	private int foodValue = 0;
 	private MovementStrategy ms;
 	private  List<Animal> preyList;
+	private  List<Animal> predatorList;
+	private int foodRepro;
 	
 	private Animal(int speed, String animationFolderName,
 			int speciesCount, int animationSeqLength,
-			MovementStrategy ms, int foodValue){
+			MovementStrategy ms, int foodValue,
+			int upperFood){
 		this.INTENDED_SPECIES_COUNT = speciesCount;
 		this.speed = speed;
 		this.animationFolderName = animationFolderName;
 		this.maxAnimationFrame = animationSeqLength;
 		this.ms = ms;
+		this.foodValue = foodValue;
+		this.foodRepro = upperFood;
 		//this must be called elsewhere, why, because all the enums must have
 		//already been contucted as assignPrey calls them... wow that  I learned
 		//this.assignPrey();
@@ -188,5 +206,17 @@ public enum Animal{
 	public abstract void move(AnimalEntity animalEntity, WorldModel model );
 	public abstract void resolveCollision(AnimalEntity animalEntity, WorldModel model );
 	protected abstract void assignPrey();
+	public int getFoodRepro() {
+		return foodRepro;
+	}
+	public void setFoodRepro(int foodRepro) {
+		this.foodRepro = foodRepro;
+	}
+	public List<Animal> getPredatorList() {
+		return predatorList;
+	}
+	public void setPredatorList(List<Animal> predatorList) {
+		this.predatorList = predatorList;
+	}
 
 }

@@ -10,7 +10,8 @@ import toolbox.Vector2D;
 public class Player {
 
 	AnimalEntity playerEntity;
-
+	boolean hasWon = false;
+	boolean hasLost = false;
 	Mouse mouse;
 	public Player(AnimalEntity myEntity, Mouse mouse){
 		this.playerEntity = myEntity;
@@ -41,7 +42,34 @@ public class Player {
 
 	public void readInput() {
 		setDirectionWithMouse();
-//		System.out.println(this.getPlayerEntity().getPosition());
+		
+		//Did we die?
+		checkIfAlive();
+		
+		//Check if enough food for an upgrade...
+		isEnoughFoodForLevelUp();
+		
+	}
+	
+	private void checkIfAlive(){
+		if(!this.playerEntity.isLiving()){
+			this.hasLost = true;
+		}
+	}
+	
+	
+	private void isEnoughFoodForLevelUp(){
+		//Check if enough food for an upgrade...
+		if(playerEntity.getTotalFoodConsumed() > playerEntity.myFlyweight.getFoodRepro()){
+			System.out.println("Enough Food for level Up");
+			//TOP OF THE FOOD CHAIN BABY
+			if(playerEntity.myFlyweight.getPredatorList().isEmpty()){
+				this.hasWon = true;
+			}else{
+			//below is dirty, should not arbitrarily choose 0, especially as it could crash
+			playerEntity.changeAnimal(playerEntity.myFlyweight.getPredatorList().get(0));
+			}
+		}
 		
 	}
 	
@@ -51,6 +79,18 @@ public class Player {
 	
 	public Mouse getMouse() {
 		return mouse;
+	}
+
+
+	public boolean hasWon() {
+		// TODO Auto-generated method stub
+		return this.hasWon;
+	}
+
+
+	public boolean hasLost() {
+		// TODO Auto-generated method stub
+		return this.hasLost;
 	}
 
 

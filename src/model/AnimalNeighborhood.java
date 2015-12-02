@@ -60,7 +60,19 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 	@Override
 	public AnimalEntity next() {
 		List<AnimalEntity> bucket = creatureEntities.get(bucketCursor%numberOfBuckets);
-		AnimalEntity animal = bucket.get(entityCursor);
+		//weird bug, not sure what's causing it but this should fix
+//		if(entityCursor >= bucket.size()){
+//			
+//		}
+		AnimalEntity animal = null;
+		try{
+			animal = bucket.get(entityCursor);
+		}catch(Exception e){
+			System.out.println("Entity Cursor: " + entityCursor);
+			System.out.println("Bucket Cursor: " + bucketCursor);
+			System.out.println("BucketNum: " + bucketCursor%numberOfBuckets);
+			e.printStackTrace();
+		}
 		entityCursor++;
 		if(entityCursor >= bucket.size()){
 			bucketCursor++;
@@ -81,7 +93,7 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 		double x = entity.getPosition().getX();
 		int bucket = (int) ( x/this.width * this.numberOfBuckets);
 		//System.out.println("place in bucket..." + bucket);
-		this.creatureEntities.get(bucket).add(entity);
+		this.creatureEntities.get(bucket%this.numberOfBuckets).add(entity);
 	}
 	
 	/**
