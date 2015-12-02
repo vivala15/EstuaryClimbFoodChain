@@ -32,17 +32,17 @@ public class Controller {
 	
 	 //Make frame, loop on repaint and wait
     public static void main(String[] args) {
-//    	StartScreen s = new StartScreen();
-//
-//		while (i == 0) {
-//			try {
-//				Thread.sleep(100);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		s.startProgressScreen();
+    	StartScreen s = new StartScreen();
+
+		while (i == 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		s.startProgressScreen();
 		
     	Controller controller = new Controller();
     	
