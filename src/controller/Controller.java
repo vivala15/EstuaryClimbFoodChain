@@ -29,6 +29,8 @@ public class Controller {
 	
 	 //Make frame, loop on repaint and wait
     public static void main(String[] args) {
+    	
+    	//Load the Start Screen
     	StartScreen s = new StartScreen();
 
 		while (i == 0) {
@@ -41,14 +43,8 @@ public class Controller {
 
 		s.startProgressScreen();
 		
-//    	Controller controller = new Controller();
-//    	
-//
-//    	controller.intializeWorld();
-//    	controller.initGame();
-//    	controller.run();
     
-    	
+
     }
     
     public void intializeWorld(){
