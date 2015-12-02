@@ -50,8 +50,22 @@ public class Controller {
     	controller.intializeWorld();
     	controller.initGame();
     	controller.run();
-    
     	
+//    	//Load the Start Screen
+//    	StartScreen s = new StartScreen();
+//
+//		while (i == 0) {
+//			try {
+//				Thread.sleep(100);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		s.startProgressScreen();
+		
+    
+
     }
     
     public void intializeWorld(){
@@ -68,7 +82,9 @@ public class Controller {
      * Set level specific features such as player 
      */
     public void initGame(){
-    	AnimalEntity playerAnimal = new AnimalEntity(Animal.Shrimp, new Vector2D(model.getWIDTH()/2,model.getDEPTH() - 5));
+    	AnimalEntity playerAnimal = new AnimalEntity(Animal.Shrimp,
+    			//new Vector2D(model.getWIDTH()/2,model.getDEPTH() - 5)
+    			new Vector2D(2,4));
     	player = new Player(playerAnimal, new Mouse(window));
     	window.getPanel().setPlayer(player);
     	model.addPlayerAnimal(playerAnimal);

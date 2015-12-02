@@ -9,7 +9,7 @@ import java.util.List;
  * @author chris
  *
  */
-public enum Animal{
+public enum Animal implements java.io.Serializable {
 	
 	//Constructor info
 	//int speed, String animationFolderName,int speciesCount, int animationSeqLength,MovementStrategy ms
@@ -112,6 +112,32 @@ public enum Animal{
 			predator.add(Animal.Shrimp);
 			this.setPredatorList(predator);
 		}
+		
+	},
+	
+	WadingBird(5, "wadingbird",2,1, new BrownianMotion(), 2,8000){
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			
+		}
+
+		@Override
+		public void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			prey.add(Animal.Fish );
+			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
+		}
+		
 		
 	};
 
