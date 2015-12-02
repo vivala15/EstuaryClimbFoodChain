@@ -7,7 +7,7 @@ import model.AnimalEntity;
 import toolbox.Mouse;
 import toolbox.Vector2D;
 
-public class Player {
+public class Player implements java.io.Serializable{
 
 	AnimalEntity playerEntity;
 
