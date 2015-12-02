@@ -100,6 +100,30 @@ public enum Animal implements java.io.Serializable {
 			this.setPreyList(prey);
 		}
 		
+	},
+	
+	WadingBird(5, "wadingbird",2,1, new BrownianMotion(), 30){
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			
+		}
+
+		@Override
+		public void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			prey.add(Animal.Fish );
+			this.setPreyList(prey);
+			
+		}
+		
+		
 	};
 
 	private String animationFolderName;
