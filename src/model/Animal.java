@@ -9,7 +9,7 @@ import java.util.List;
  * @author chris
  *
  */
-public enum Animal{
+public enum Animal implements java.io.Serializable {
 	
 	//Constructor info
 	//int speed, String animationFolderName,int speciesCount, int animationSeqLength,MovementStrategy ms
