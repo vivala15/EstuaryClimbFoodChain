@@ -13,7 +13,7 @@ public enum Animal{
 	
 	//Constructor info
 	//int speed, String animationFolderName,int speciesCount, int animationSeqLength,MovementStrategy ms
-	Seal(5, "seal",2,6, new BrownianMotion(), 200){
+	Seal(5, "seal",2,1, new BrownianMotion(), 200){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
 			this.getMovementStrategy().setMove(animalEntity, model);
@@ -36,7 +36,7 @@ public enum Animal{
 		
 		
 	},
-	Fish(6, "fish",10,6,new BrownianMotion(), 25){
+	Fish(6, "fish",1,6,new BrownianMotion(), 25){
 
 		
 		@Override
@@ -59,7 +59,7 @@ public enum Animal{
 		}
 		
 	},
-	Shrimp(3, "shrimp",20,6,new BrownianMotion(), 5){
+	Shrimp(3, "shrimp",1,6,new BrownianMotion(), 5){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -81,7 +81,7 @@ public enum Animal{
 		}
 		
 	},
-	Plankton(5, "plankton", 5,6,new BrownianMotion(), 1){
+	Plankton(1, "plankton", 50,6,new BrownianMotion(), 1){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {

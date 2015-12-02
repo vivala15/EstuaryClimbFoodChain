@@ -27,7 +27,9 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	}
 
 	public void takeStep(){
+		
 		this.neighborhood.updateNeighborhood();
+		
 		for(AnimalEntity animal: this){
 			animal.takeStep(.1f, this);
 		}

@@ -64,6 +64,8 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 		entityCursor++;
 		if(entityCursor >= bucket.size()){
 			bucketCursor++;
+			//call this because if current bucket has contents it will return the same
+			bucketCursor = nextNonEmptyBucket(bucketCursor);
 			entityCursor = 0;
 		}
 		return animal;
@@ -111,6 +113,7 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 	 * @param prey
 	 */
 	public void removeAnimal(AnimalEntity prey) {
+		System.out.println("remove animal called");
 		toBeRemoved.add(prey);
 	}
 	
