@@ -44,8 +44,10 @@ public class ViewingPanel extends JPanel{
 	}
 
 	private void updateCameraShift(){
-		Vector2D midpoint = Maths.weightedMid(this.player.getPlayerEntity().getPosition(),
-				player.getMouse().getMousePointerInWorldCoord(), .8);
+		Vector2D x = this.player.getPlayerEntity().getPosition();
+		Vector2D y = player.getMouse().getMousePointerInWorldCoord();
+		Vector2D midpoint = Maths.weightedMid(x,
+				y, .8);
 
 		double playerPointX = midpoint.getX() ;
 		double playerPointY = midpoint.getY() ;

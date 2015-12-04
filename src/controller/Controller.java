@@ -53,6 +53,10 @@ public class Controller {
 
 		s.startProgressScreen();
 		
+    	Controller controller = new Controller();
+    	
+
+		
 //    	Controller controller = new Controller();
 //    	
 //
