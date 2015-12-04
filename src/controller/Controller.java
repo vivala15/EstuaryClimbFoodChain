@@ -13,7 +13,16 @@ import view.OptionsPanel;
 import view.StartScreen;
 import view.ViewingWindow;
 
-
+/**
+ * Found this on reddit, thought it was funny and true
+ * 
+ * 
+ *  "we don't write object hierarchies to satisfy our inner Linnaeus."
+ *  
+ *  
+ * @author chris
+ *
+ */
 public class Controller {
 
 	ViewingWindow window;
@@ -32,24 +41,24 @@ public class Controller {
 	
 	 //Make frame, loop on repaint and wait
     public static void main(String[] args) {
-//    	StartScreen s = new StartScreen();
-//
-//		while (i == 0) {
-//			try {
-//				Thread.sleep(100);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		s.startProgressScreen();
-		
-    	Controller controller = new Controller();
-    	
+    	StartScreen s = new StartScreen();
 
-    	controller.intializeWorld();
-    	controller.initGame();
-    	controller.run();
+		while (i == 0) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		s.startProgressScreen();
+		
+//    	Controller controller = new Controller();
+//    	
+//
+//    	controller.intializeWorld();
+//    	controller.initGame();
+//    	controller.run();
     	
 //    	//Load the Start Screen
 //    	StartScreen s = new StartScreen();

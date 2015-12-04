@@ -22,7 +22,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 6);
 			
 		}
 
@@ -48,7 +48,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 9);
 			
 		}
 		
@@ -74,7 +74,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 9);
 			
 		}
 		
@@ -100,7 +100,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			CollisionHandler.resolveCollision(animalEntity, model, 3, 9);
 			
 		}
 		@Override
@@ -115,7 +115,7 @@ public enum Animal implements java.io.Serializable {
 		
 	},
 	
-	WadingBird(5, "wadingbird",2,1, new BrownianMotion(), 2,8000){
+	WadingBird(5, "wadingbird",3,6, new BrownianMotion(), 2,8000){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
 			this.getMovementStrategy().setMove(animalEntity, model);
@@ -124,7 +124,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 3);
+			CollisionHandler.resolveCollision(animalEntity, model, 15, 3);
 			
 		}
 
@@ -137,6 +137,37 @@ public enum Animal implements java.io.Serializable {
 			ArrayList<Animal> predator = new ArrayList<Animal>();
 			this.setPredatorList(predator);
 		}
+		
+		
+	},
+	
+	Oil(1,"oil", 3,1, new BrownianMotion(), -5, 10 ){
+
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, 15, 3);
+			
+		}
+
+		@Override
+		protected void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			prey.add(Animal.Fish );
+			prey.add(Animal.Shrimp );
+			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
+			
+		}
+		
+		
 		
 		
 	};

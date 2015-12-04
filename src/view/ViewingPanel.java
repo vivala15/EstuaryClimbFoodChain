@@ -107,6 +107,8 @@ public class ViewingPanel extends JPanel{
 					this);
 		}
 
+		
+		//debug draw mouse 
 		Vector2D debugPointer = this.player.getMouse().getMousePointerInWorldCoord();
 		 g.setColor(Color.RED);
 		g.drawRect((int)((debugPointer.getX()+cameraShift.getX())*this.WORLD_TO_PIXEL),
@@ -118,9 +120,15 @@ public class ViewingPanel extends JPanel{
 				(int)(cameraShift.getY()*this.WORLD_TO_PIXEL),
 				(int)(this.getWorldWidth()*this.WORLD_TO_PIXEL),
 				(int)(this.getWorldHeight()*this.WORLD_TO_PIXEL));
+		
+		
+		
 		toBeDrawnAnimals.clear();
     }
 	
+	public void drawGui(){
+		
+	}
 	
 	
 	public double getWORLD_TO_PIXEL() {
