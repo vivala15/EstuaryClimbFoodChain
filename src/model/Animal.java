@@ -168,8 +168,31 @@ public enum Animal implements java.io.Serializable {
 		}
 		
 		
-		
-		
+	},
+	
+	Bubble(1,"bubble", 40,6, new BrownianMotion(), -5, 10 ){
+
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, 15, 3);
+			
+		}
+
+		@Override
+		protected void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
+			
+		}
 	};
 
 	private String animationFolderName;
