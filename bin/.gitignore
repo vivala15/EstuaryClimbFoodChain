@@ -1,5 +1,4 @@
-/controller/
-/view/
-/model/
+/controllerTests/
+/modelTests/
 /Image/
-/SerializeTests/
+/model/

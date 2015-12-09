@@ -36,6 +36,7 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		
 		
 		for(AnimalEntity animal: this){
+			
 			animal.takeStep(.05f, this);
 		}
 		//only after iterating the animals call this

@@ -30,6 +30,9 @@ public class AssetLoader {
 		viewingPanel.setBackgroundImage(seqImage);
 	}
 	
+	/**
+	 * This is such a poorly written and shitty method, eh
+	 */
 	public void loadAnimalAnimations(){
 		for(Animal animal: Animal.values()){
 			//Open folder and get image
@@ -59,6 +62,42 @@ public class AssetLoader {
 				
 			}
 			animal.setAnimationSequence(pics);
+			//backwards animations...
+			
+			//Open folder and get image
+			BufferedImage backSeqImage = createImage(this.animationFolder+animal.getAnimationFolderName()+ "/re_animation.png");
+			//break image into animated components
+			ArrayList<BufferedImage> backPics = new ArrayList<BufferedImage>();
+			if (seqImage != null) {
+				int imgWidth = seqImage.getWidth()/animal.getMaxAnimationFrame();
+				int imgHeight = seqImage.getHeight();
+				
+				animal.setImgHeight(imgHeight);
+				animal.setImgWidth(imgWidth);
+				for (int i = 0; i < animal.getMaxAnimationFrame(); i++){
+					backPics.add(seqImage.getSubimage(imgWidth * i, 0, imgWidth, imgHeight));
+				}
+			}else{
+				//failed to read in plan animation.png, check if numbered sequence
+				for (int i = 0; i < animal.getMaxAnimationFrame(); i++){
+					BufferedImage backImg = createImage(this.animationFolder+animal.getAnimationFolderName()+ "/re_animation"+Integer.toString(i)+".png");
+					if(backImg == null){
+						break;
+					}
+					backPics.add(backImg);
+					int imgWidth = backImg.getWidth();
+					int imgHeight = backImg.getHeight();
+					animal.setImgHeight(imgHeight);
+					animal.setImgWidth(imgWidth);
+					
+				}
+				
+			}
+
+			animal.setMovingBackAnimationSequence(backPics);
+			
+			
+			
 			
 			//dead animation
 			

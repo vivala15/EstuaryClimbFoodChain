@@ -1,7 +1,10 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -118,26 +121,51 @@ public class ViewingPanel extends JPanel{
 			//}
 		}
 
-		
-		//debug draw mouse 
-		Vector2D debugPointer = this.player.getMouse().getMousePointerInWorldCoord();
-		 g.setColor(Color.RED);
-		g.drawRect((int)((debugPointer.getX()+cameraShift.getX())*this.WORLD_TO_PIXEL),
-				(int)((debugPointer.getY()+cameraShift.getY())*this.WORLD_TO_PIXEL),
-						100,
-						100);
-		
-		g.drawRect((int)(cameraShift.getX()*this.WORLD_TO_PIXEL),
-				(int)(cameraShift.getY()*this.WORLD_TO_PIXEL),
-				(int)(this.getWorldWidth()*this.WORLD_TO_PIXEL),
-				(int)(this.getWorldHeight()*this.WORLD_TO_PIXEL));
+
+		drawGui(g);
+		//debug draw mouse  and draw world box
+//		Vector2D debugPointer = this.player.getMouse().getMousePointerInWorldCoord();
+//		 g.setColor(Color.RED);
+//		g.drawRect((int)((debugPointer.getX()+cameraShift.getX())*this.WORLD_TO_PIXEL),
+//				(int)((debugPointer.getY()+cameraShift.getY())*this.WORLD_TO_PIXEL),
+//						100,
+//						100);
+//		
+//		g.drawRect((int)(cameraShift.getX()*this.WORLD_TO_PIXEL),
+//				(int)(cameraShift.getY()*this.WORLD_TO_PIXEL),
+//				(int)(this.getWorldWidth()*this.WORLD_TO_PIXEL),
+//				(int)(this.getWorldHeight()*this.WORLD_TO_PIXEL));
 		
 		
 		
 		toBeDrawnAnimals.clear();
     }
 	
-	public void drawGui(){
+	public void drawGui(Graphics g){
+		//food level 
+		//backdrop
+		g.setColor(Color.BLACK);
+		g.fillRoundRect(50, 50, 250, 20, 10, 10);
+		
+		//food level
+		//hsb, hue range 0 (red) - 125(green)
+		//satu at 95
+		//brightness 55
+		//this.player.getPlayerEntity().
+		//food bar
+		double percentFullFood = this.player.getPlayerEntity().getFoodLevel()/ this.player.getPlayerEntity().getLevelUpFood();
+		//System.out.println(percentFullFood);
+		g.setColor(Color.getHSBColor((float) (125 *percentFullFood)/360f , .95f, .55f));
+		g.fillRoundRect(55, 55, (int) (230 * percentFullFood), 10, 10, 10);
+		
+		 Graphics2D g2 = (Graphics2D)g;
+	        
+//	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//	            RenderingHints.VALUE_ANTIALIAS_ON);
+	        Font font = new Font("Serif", Font.PLAIN, 20);
+	        g2.setFont(font);
+
+	        g2.drawString("Food Level", 50, 40); 
 		
 	}
 	

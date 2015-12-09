@@ -176,7 +176,7 @@ public enum Animal implements java.io.Serializable {
 		
 	},
 	
-	Oil(1,"oil",0,1, new BrownianMotion(), -5, 10,0 ){
+	Oil(1,"oil",5,1, new BrownianMotion(), -5, 10,0 ){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -210,8 +210,38 @@ public enum Animal implements java.io.Serializable {
 		}
 		
 		
+	},
+	
+	Bubble(1,"bubble", 40,6, new BrownianMotion(), -5, 10 , .1){
+
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
+			
+		}
+
+		@Override
+		protected void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
+			
+		}
 		
-		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(5);
+			this.setBottomLimit(4);
+			
+		}
 	};
 
 	private double surfaceLimit;
@@ -221,6 +251,7 @@ public enum Animal implements java.io.Serializable {
 	private int imgHeight;
 	private int imgWidth;
 	private List<BufferedImage> movingAnimationSequence;
+	private List<BufferedImage> movingBackAnimationSequence;
 	private BufferedImage deadImage;
 	private int maxAnimationFrame = 0;
 	private int INTENDED_SPECIES_COUNT = 0;
@@ -349,6 +380,12 @@ public enum Animal implements java.io.Serializable {
 	}
 	public BufferedImage getDeadDrawable() {
 		return this.deadImage;
+	}
+	public List<BufferedImage> getMovingBackAnimationSequence() {
+		return movingBackAnimationSequence;
+	}
+	public void setMovingBackAnimationSequence(List<BufferedImage> movingBackAnimationSequence) {
+		this.movingBackAnimationSequence = movingBackAnimationSequence;
 	}
 
 }

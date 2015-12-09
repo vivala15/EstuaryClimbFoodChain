@@ -19,8 +19,10 @@ public class AnimalEntity {
 	private int animationFrame = 0;
 	private int maxAnimationFrame = 1; //TODO: this should not be here, keep in Animal flyweight 
 	private double foodLevel = 0;
+
+
 	private double starvationRate; //food loss rate per second, read in from Animal, but keep
-	
+	private boolean isPlayer = false;
 	private boolean oilContamination = false;
 	
 	//here to make it variable...
@@ -44,10 +46,17 @@ public class AnimalEntity {
 		this.myFlyweight = newAnimal;
 		this.maxAnimationFrame = this.myFlyweight.getMaxAnimationFrame();
 	}
-	
+	/**
+	 * More shit code for the shit hack
+	 */
+	public void setAsPlayer(){
+		this.isPlayer = true;
+	}
 	public void takeStep(float dt, WorldModel model){
-		this.myFlyweight.move(this, model);
-		
+		//this is a shit hack, but 12 hrs to go....
+		if(!isPlayer){
+			this.myFlyweight.move(this, model);
+		}
 		this.position.addX(speedMultiplier*this.myFlyweight.getSpeed()* direction.getX() * dt);
 		this.position.addY(speedMultiplier*this.myFlyweight.getSpeed()* direction.getY() * dt);
 		
@@ -65,13 +74,19 @@ public class AnimalEntity {
 			this.depleteFood(dt); // has it starved
 			
 			if(hasStarved()){
+				System.out.println("Someone starved, set living to false...");
 				this.isLiving = false; // this will tell model to remove it from world
 			}
 			
+			if(!isLiving()){
+				model.wasConsumed(this);
+			}
 		}
+	
 	}
 	
 	public boolean hasStarved(){
+		
 		return this.foodLevel < 0;
 	}
 	
@@ -83,6 +98,11 @@ public class AnimalEntity {
 	public BufferedImage getDrawable(){
 		if(this.isOilContamination()){
 			return this.myFlyweight.getDeadDrawable();
+		}
+		//check direction -- such a horrible way to write a method
+		//redundant checking and ugh.... design this away please...........................
+		if(this.getDirection().getX() > 0  && !this.myFlyweight.getMovingBackAnimationSequence().isEmpty()){
+			return this.myFlyweight.getMovingBackAnimationSequence().get(animationFrame);
 		}
 		return this.myFlyweight.getAnimationSequence().get(animationFrame);
 	}
@@ -142,5 +162,11 @@ public class AnimalEntity {
 	
 	public void addFood(double foodChange){
 		this.foodLevel += foodChange;
+	}
+	public double getFoodLevel() {
+		return foodLevel;
+	}
+	public double getLevelUpFood(){
+		return this.myFlyweight.getFoodRepro();
 	}
 }

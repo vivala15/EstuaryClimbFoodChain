@@ -11,6 +11,7 @@ public class Player implements java.io.Serializable{
 	boolean hasLost = false;
 	Mouse mouse;
 	public Player(AnimalEntity myEntity, Mouse mouse){
+		myEntity.setAsPlayer();
 		this.playerEntity = myEntity;
 		this.mouse = mouse;
 	}
@@ -57,7 +58,7 @@ public class Player implements java.io.Serializable{
 	
 	private void isEnoughFoodForLevelUp(){
 		//Check if enough food for an upgrade...
-		if(playerEntity.getTotalFoodConsumed() > playerEntity.myFlyweight.getFoodRepro()){
+		if(playerEntity.getFoodLevel() > playerEntity.myFlyweight.getFoodRepro()){
 			System.out.println("Enough Food for level Up");
 			//TOP OF THE FOOD CHAIN BABY
 			if(playerEntity.myFlyweight.getPredatorList().isEmpty()){
