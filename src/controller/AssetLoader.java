@@ -59,6 +59,11 @@ public class AssetLoader {
 				
 			}
 			animal.setAnimationSequence(pics);
+			
+			//dead animation
+			
+			BufferedImage deadImage = createImage(this.animationFolder+animal.getAnimationFolderName()+ "/oil_anim.png");
+			animal.setDeadDrawable(deadImage);
 		} 
 			 
 	}

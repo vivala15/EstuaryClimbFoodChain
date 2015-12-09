@@ -141,8 +141,19 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 					9);
 			boolean removed = this.creatureEntities.get(bucket).remove(prey);
 			if (!removed) {
-				System.err.println("ANIMAL TO BE REMOVED WAS NOT IN ITS PROPER BUCKET!!!");
-				System.err.println("This may correspond to severe logic bugs, address this");
+				//atleast try neighboring buckets...
+				if(bucket > 0){
+					removed = this.creatureEntities.get(bucket-1).remove(prey);
+				}
+				if(bucket < this.numberOfBuckets-1 && !removed){
+					removed = this.creatureEntities.get(bucket+1).remove(prey);
+				}
+				if(removed){
+					System.err.println("Found in a neighboring bucket");
+				}else{
+					System.err.println("ANIMAL TO BE REMOVED WAS NOT IN ITS PROPER BUCKET!!!");
+					System.err.println("This may correspond to severe logic bugs, address this");
+				}
 			}
 		}
 		toBeRemoved.clear();

@@ -20,11 +20,18 @@ public class CollisionHandler {
 		resolveFoodChain( entity, model);
 	}
 	
+	public static void resolveOilCollision(AnimalEntity entity, WorldModel model,
+			double depthLimitFromBottom, double depthLimitFromSurface){
+		resolveEdgeCollisions( entity,  model,depthLimitFromBottom,  depthLimitFromSurface);
+		oilAttach(entity,model);
+		
+	}
+	
 	/*
 	 * Searches local area for neighbors and calls relevant eating methods if they are
 	 * within range and are listed as prey for this entity.
 	 */
-	public static void resolveFoodChain(AnimalEntity entity, WorldModel model){
+	private static void resolveFoodChain(AnimalEntity entity, WorldModel model){
 		List<AnimalEntity> nearbyAnimals = model.getNearbyAnimals(entity.getPosition(), 2);
 		for(AnimalEntity animEntity : nearbyAnimals){
 			if(animEntity != entity){ //make sure not comparing animal to itself...
@@ -61,6 +68,23 @@ public class CollisionHandler {
 		}
 	}
 	
+	
+	private static void oilAttach(AnimalEntity entity, WorldModel model){
+		List<AnimalEntity> nearbyAnimals = model.getNearbyAnimals(entity.getPosition(), 2);
+		for(AnimalEntity animEntity : nearbyAnimals){
+			if(animEntity != entity){ //make sure not comparing animal to itself...
+				//definitely not most efficient way but should be fine since small list and 
+				//neighborhood search
+				if(entity.myFlyweight.getPreyList().contains(animEntity.myFlyweight)){
+					//model.wasConsumed(animEntity);  //remove consumed animal
+					entity.digestAnimal(animEntity); //compensate food value
+					animEntity.setOilContamination(true);
+					animEntity.addFood(entity.myFlyweight.getFoodValue());
+					//animEntity.setLiving(false);	//let entity know it died
+				}
+			}
+		}
+	}
 	
 	
 	

@@ -13,9 +13,11 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	
 	//HashMap for fast lookup when map densely populated
 	private AnimalNeighborhood neighborhood;
+	private GameEventSequencer eventScheduler;
 	private static double DEPTH = 25;
 	private static double WIDTH = 80;
 	private Random rand;
+	
 	
 	public WorldModel(){
 		neighborhood = new AnimalNeighborhood(WIDTH);
@@ -24,11 +26,15 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		for(Animal animal : Animal.values()){
 			animal.assignPrey();
 		}
+		eventScheduler = new GameEventSequencer(this);
 	}
 
 	public void takeStep(){
 		
 		this.neighborhood.updateNeighborhood();
+		
+		
+		
 		
 		for(AnimalEntity animal: this){
 			animal.takeStep(.05f, this);
@@ -58,8 +64,21 @@ public class WorldModel implements Iterable<AnimalEntity>{
 
 	public void addAnimal(Animal animalFlyweightType){
 		animalFlyweightType.setNumberOfSpecies(animalFlyweightType.getNumberOfSpecies() + 1);
+		//int highestAllowableY = animalFlyweightType.get
 		AnimalEntity entity = new AnimalEntity(animalFlyweightType,
-				new Vector2D(rand.nextDouble()*WIDTH, rand.nextDouble()* DEPTH));
+				new Vector2D(rand.nextDouble()*WIDTH, 
+						animalFlyweightType.getSurfaceLimit()+ rand.nextDouble()*
+						(DEPTH - animalFlyweightType.getSurfaceLimit() - 
+								animalFlyweightType.getBottomLimit())));
+		neighborhood.addAnimal(entity);
+	}
+	
+	public void addAnimal(Animal animalFlyweightType, Vector2D location){
+		animalFlyweightType.setNumberOfSpecies(animalFlyweightType.getNumberOfSpecies() + 1);
+		//mod by width and depth to make sure its not out of world... is that actually
+		//desirable, mabye do want outside????
+		AnimalEntity entity = new AnimalEntity(animalFlyweightType,
+				new Vector2D(location.getX()%WIDTH, location.getY() %DEPTH));
 		neighborhood.addAnimal(entity);
 	}
 	

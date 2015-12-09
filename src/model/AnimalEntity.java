@@ -15,9 +15,15 @@ public class AnimalEntity {
 	//not the best way but only way I can think of right now
 	private boolean isLiving = true;
 	
+	private double speedMultiplier =1.0;
 	private int animationFrame = 0;
-	private int maxAnimationFrame = 1;
-	private int foodLevel = 0;
+	private int maxAnimationFrame = 1; //TODO: this should not be here, keep in Animal flyweight 
+	private double foodLevel = 0;
+	private double starvationRate; //food loss rate per second, read in from Animal, but keep
+	
+	private boolean oilContamination = false;
+	
+	//here to make it variable...
 	private int totalFoodConsumed = 0;
 	
 	public long timeOfLastMove = 0;
@@ -29,6 +35,9 @@ public class AnimalEntity {
 		this.direction = new Vector2D(0, 0);
 		this.myFlyweight = myFlyweight;
 		this.maxAnimationFrame = this.myFlyweight.getMaxAnimationFrame();
+		this.starvationRate = myFlyweight.getStarvationRate();
+		
+		this.foodLevel = this.myFlyweight.getFoodRepro() /2.0;
 	}
 	
 	public void changeAnimal(Animal newAnimal){
@@ -39,16 +48,42 @@ public class AnimalEntity {
 	public void takeStep(float dt, WorldModel model){
 		this.myFlyweight.move(this, model);
 		
-		this.position.addX(this.myFlyweight.getSpeed()* direction.getX() * dt);
-		this.position.addY(this.myFlyweight.getSpeed()* direction.getY() * dt);
+		this.position.addX(speedMultiplier*this.myFlyweight.getSpeed()* direction.getX() * dt);
+		this.position.addY(speedMultiplier*this.myFlyweight.getSpeed()* direction.getY() * dt);
 		
 		this.myFlyweight.resolveCollision(this, model);
 		
 		this.animationFrame = (this.animationFrame+1) % this.maxAnimationFrame;
 		
+		if(Controller.GAME_MODE == GameMode.POPULATION_FEEDBACK){
+
+			if (this.foodLevel >= this.myFlyweight.getFoodRepro()) {
+				// hmm what to do here? in a population study could increase
+				// number
+			}
+			
+			this.depleteFood(dt); // has it starved
+			
+			if(hasStarved()){
+				this.isLiving = false; // this will tell model to remove it from world
+			}
+			
+		}
+	}
+	
+	public boolean hasStarved(){
+		return this.foodLevel < 0;
+	}
+	
+	public void depleteFood(float dt){
+		this.foodLevel -= dt* this.starvationRate;
+		
 	}
 	
 	public BufferedImage getDrawable(){
+		if(this.isOilContamination()){
+			return this.myFlyweight.getDeadDrawable();
+		}
 		return this.myFlyweight.getAnimationSequence().get(animationFrame);
 	}
 	public Vector2D getPosition() {
@@ -74,14 +109,10 @@ public class AnimalEntity {
 		
 		this.foodLevel += darwinsLoser.myFlyweight.getFoodValue();
 		this.totalFoodConsumed += darwinsLoser.myFlyweight.getFoodValue();
-		System.out.println(this.foodLevel);
-		if(this.foodLevel >= this.myFlyweight.getFoodRepro()){
-			// hmm what to do here? in a population study could increase number
-			if(Controller.GAME_MODE == GameMode.POPULATION_FEEDBACK){
-				
-			}
-		}
+		//System.out.println(this.foodLevel);
 	}
+	
+	
 
 	public int getTotalFoodConsumed() {
 		return totalFoodConsumed;
@@ -95,6 +126,21 @@ public class AnimalEntity {
 		this.isLiving = isLiving;
 	}
 
+	public boolean isOilContamination() {
+		return oilContamination;
+	}
+
+	public void setOilContamination(boolean oilContamination) {
+		if(oilContamination){
+			speedMultiplier = .2;
+		}else{
+			speedMultiplier = 1;
+		}
+		this.oilContamination = oilContamination;
+	}
+
 	
-	
+	public void addFood(double foodChange){
+		this.foodLevel += foodChange;
+	}
 }

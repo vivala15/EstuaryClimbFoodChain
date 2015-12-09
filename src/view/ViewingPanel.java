@@ -93,6 +93,7 @@ public class ViewingPanel extends JPanel{
 		
 		//DrawBackground
 		for(int i =0 ; i < this.numberBackgroundTiles; i++){
+			
 			g.drawImage(this.backgroundImage, (int) (cameraShift.getX() * this.WORLD_TO_PIXEL+ this.backgroundImage.getWidth()*i),
 					(int)(cameraShift.getY()*this.WORLD_TO_PIXEL), this);
 	
@@ -103,10 +104,19 @@ public class ViewingPanel extends JPanel{
 //		System.out.println("Drawing number entities: " + toBeDrawnAnimals.size());
 		for(AnimalEntity entity : toBeDrawnAnimals ){
 //			System.out.println((int)entity.getPosition().getY());
-			g.drawImage(entity.getDrawable(),
-					(int)((entity.getPosition().getX()+cameraShift.getX())*this.WORLD_TO_PIXEL /*+frame.getWidth()/2.0 */),
-					(int)((entity.getPosition().getY()+cameraShift.getY())*this.WORLD_TO_PIXEL /* +frame.getHeight()/2.0*/),
-					this);
+			//below if check of distance to only draw nearby bitmaps in event
+			//that it would allow a pickup in loop, but it didn't, swing sucks.
+			//no it doens't suck but isn't meant for this
+//			if(Math.abs(entity.getPosition().getX() + cameraShift.getX()) < 12 && 
+//					Math.abs(entity.getPosition().getY() + cameraShift.getY()) < 12){
+			
+				g.drawImage(entity.getDrawable(),
+						(int)((entity.getPosition().getX()+cameraShift.getX())*this.WORLD_TO_PIXEL /*+frame.getWidth()/2.0 */),
+						(int)((entity.getPosition().getY()+cameraShift.getY())*this.WORLD_TO_PIXEL /* +frame.getHeight()/2.0*/),
+						this);
+				
+
+			//}
 		}
 
 		

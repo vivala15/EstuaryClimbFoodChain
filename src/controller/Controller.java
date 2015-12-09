@@ -53,7 +53,7 @@ public class Controller {
 
 		s.startProgressScreen();
 		
-    	Controller controller = new Controller();
+    	//Controller controller = new Controller();
     	
 
 		
@@ -127,9 +127,9 @@ public class Controller {
     		//THIS IS  horrible loop stratgey, the absolute worst
     		//TODO: rewrite a proper loop that counts elapsed time....
     		try {
-				Thread.sleep(50);
+				Thread.sleep(50); //swing blows and isn't for games!!!!!
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
     	}
@@ -159,7 +159,7 @@ public class Controller {
     }
     
     public void exitCallBack(){
-    	
+    	// TODO write options
     }
 
 	public void continueCallBack() {

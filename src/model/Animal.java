@@ -13,7 +13,7 @@ public enum Animal implements java.io.Serializable {
 	
 	//Constructor info
 	//int speed, String animationFolderName,int speciesCount, int animationSeqLength,MovementStrategy ms
-	Seal(5, "seal",2,6, new BrownianMotion(), 200,400){
+	Seal(5, "seal",2,6, new BrownianMotion(), 200,400,1){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
 			this.getMovementStrategy().setMove(animalEntity, model);
@@ -22,7 +22,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 6);
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
 			
 		}
 
@@ -35,9 +35,16 @@ public enum Animal implements java.io.Serializable {
 			this.setPredatorList(predator);
 		}
 		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(6);
+			this.setBottomLimit(3);
+			
+		}
+		
 		
 	},
-	Fish(6, "fish",5,6,new BrownianMotion(), 25,50){
+	Fish(6, "fish",5,6,new BrownianMotion(), 25,50,.8){
 
 		
 		@Override
@@ -48,7 +55,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 9);
+			CollisionHandler.resolveCollision(animalEntity, model,this.getBottomLimit(), this.getSurfaceLimit());
 			
 		}
 		
@@ -63,8 +70,15 @@ public enum Animal implements java.io.Serializable {
 			this.setPredatorList(predator);
 		}
 		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(8);
+			this.setBottomLimit(3);
+			
+		}
+		
 	},
-	Shrimp(4, "shrimp",15,6,new BrownianMotion(), 5,10){
+	Shrimp(4, "shrimp",15,6,new BrownianMotion(), 5,10,.2){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -74,7 +88,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 9);
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
 			
 		}
 		
@@ -89,8 +103,15 @@ public enum Animal implements java.io.Serializable {
 			this.setPredatorList(predator);
 		}
 		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(8);
+			this.setBottomLimit(3);
+			
+		}
+		
 	},
-	Plankton(1, "plankton", 50,6,new BrownianMotion(), 1,4){
+	Plankton(1, "plankton", 50,6,new BrownianMotion(), 1,4, .02){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -100,7 +121,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 3, 9);
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
 			
 		}
 		@Override
@@ -113,9 +134,16 @@ public enum Animal implements java.io.Serializable {
 			this.setPredatorList(predator);
 		}
 		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(8);
+			this.setBottomLimit(3);
+			
+		}
+		
 	},
 	
-	WadingBird(5, "wadingbird",3,6, new BrownianMotion(), 2,8000){
+	WadingBird(5, "wadingbird",3,6, new BrownianMotion(), 2,8000, .05){
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
 			this.getMovementStrategy().setMove(animalEntity, model);
@@ -124,7 +152,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 15, 3);
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
 			
 		}
 
@@ -138,10 +166,17 @@ public enum Animal implements java.io.Serializable {
 			this.setPredatorList(predator);
 		}
 		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(3);
+			this.setBottomLimit(15);
+			
+		}
+		
 		
 	},
 	
-	Oil(1,"oil", 3,1, new BrownianMotion(), -5, 10 ){
+	Oil(1,"oil",0,1, new BrownianMotion(), -5, 10,0 ){
 
 		@Override
 		public void move(AnimalEntity animalEntity, WorldModel model) {
@@ -151,7 +186,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
-			CollisionHandler.resolveCollision(animalEntity, model, 15, 3);
+			CollisionHandler.resolveOilCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
 			
 		}
 
@@ -166,17 +201,27 @@ public enum Animal implements java.io.Serializable {
 			this.setPredatorList(predator);
 			
 		}
+
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(3);
+			this.setBottomLimit(15);
+			
+		}
 		
 		
 		
 		
 	};
 
+	private double surfaceLimit;
+	private double bottomLimit;
 	private String animationFolderName;
 	private double speed;
 	private int imgHeight;
 	private int imgWidth;
 	private List<BufferedImage> movingAnimationSequence;
+	private BufferedImage deadImage;
 	private int maxAnimationFrame = 0;
 	private int INTENDED_SPECIES_COUNT = 0;
 	private int numberOfSpecies = 0;
@@ -185,11 +230,12 @@ public enum Animal implements java.io.Serializable {
 	private  List<Animal> preyList;
 	private  List<Animal> predatorList;
 	private int foodRepro;
+	private double starvationRate;
 	
 	private Animal(int speed, String animationFolderName,
 			int speciesCount, int animationSeqLength,
 			MovementStrategy ms, int foodValue,
-			int upperFood){
+			int upperFood, double starvationRate){
 		this.INTENDED_SPECIES_COUNT = speciesCount;
 		this.speed = speed;
 		this.animationFolderName = animationFolderName;
@@ -197,6 +243,8 @@ public enum Animal implements java.io.Serializable {
 		this.ms = ms;
 		this.foodValue = foodValue;
 		this.foodRepro = upperFood;
+		this.setStarvationRate(starvationRate);
+		this.setFieldInfo();
 		//this must be called elsewhere, why, because all the enums must have
 		//already been contucted as assignPrey calls them... wow that  I learned
 		//this.assignPrey();
@@ -263,6 +311,8 @@ public enum Animal implements java.io.Serializable {
 	public abstract void move(AnimalEntity animalEntity, WorldModel model );
 	public abstract void resolveCollision(AnimalEntity animalEntity, WorldModel model );
 	protected abstract void assignPrey();
+	protected abstract void setFieldInfo(); //because its uncanny to put everything in one line
+	
 	public int getFoodRepro() {
 		return foodRepro;
 	}
@@ -274,6 +324,31 @@ public enum Animal implements java.io.Serializable {
 	}
 	public void setPredatorList(List<Animal> predatorList) {
 		this.predatorList = predatorList;
+	}
+	public double getStarvationRate() {
+		return starvationRate;
+	}
+	public void setStarvationRate(double starvationRate) {
+		this.starvationRate = starvationRate;
+	}
+	public double getSurfaceLimit() {
+		return surfaceLimit;
+	}
+	public void setSurfaceLimit(double surfaceLimit) {
+		this.surfaceLimit = surfaceLimit;
+	}
+	public double getBottomLimit() {
+		return bottomLimit;
+	}
+	public void setBottomLimit(double bottomLimit) {
+		this.bottomLimit = bottomLimit;
+	}
+	
+	public void setDeadDrawable(BufferedImage deadImage){
+		this.deadImage = deadImage;
+	}
+	public BufferedImage getDeadDrawable() {
+		return this.deadImage;
 	}
 
 }
