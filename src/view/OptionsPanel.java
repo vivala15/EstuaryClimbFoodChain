@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 
 import controller.Controller;
@@ -39,6 +38,7 @@ public class OptionsPanel extends JPanel{
 			optionDialog = new JLabel("Paused");
 			continueButton = new JButton("Continue Playing");
 			continueButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					controller.continueCallBack();
 				}
@@ -52,11 +52,13 @@ public class OptionsPanel extends JPanel{
 		
 		
 		playAgain.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.playAgainCallBack();
 			}
 		});
 		exit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.exitCallBack();
 			}

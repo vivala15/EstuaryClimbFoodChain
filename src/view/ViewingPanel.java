@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import controller.Player;
 import model.AnimalEntity;
 import toolbox.Maths;
-import toolbox.Mouse;
 import toolbox.Vector2D;
 
 public class ViewingPanel extends JPanel{

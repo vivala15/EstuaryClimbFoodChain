@@ -15,6 +15,7 @@ public class BrownianMotion implements MovementStrategy{
 		 
 	 }
 	
+	@Override
 	public void setMove(AnimalEntity animalEntity, WorldModel model){
 		//every ceratin amount of time give a new random direction
 		long currentTime = System.currentTimeMillis();

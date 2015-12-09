@@ -1,9 +1,5 @@
 package controller;
 
-import java.awt.Color;
-
-import javax.swing.JFrame;
-
 import model.Animal;
 import model.AnimalEntity;
 import model.WorldModel;

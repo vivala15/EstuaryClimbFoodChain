@@ -1,6 +1,4 @@
 package SerializeTests;
-import java.io.*;
-import model.Animal;
 
 
 public class AnimalSerialize {

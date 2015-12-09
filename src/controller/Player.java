@@ -1,8 +1,5 @@
 package controller;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-
 import model.AnimalEntity;
 import toolbox.Mouse;
 import toolbox.Vector2D;
