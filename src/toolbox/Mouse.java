@@ -36,4 +36,5 @@ public class Mouse {
 							(pointer.getY() - frame.getY() )/this.worldToPixel - cameraShift.getY());
 	}
 	
+	
 }

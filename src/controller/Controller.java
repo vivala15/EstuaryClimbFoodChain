@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.event.WindowEvent;
+
 import model.Animal;
 import model.AnimalEntity;
 import model.WorldModel;
@@ -94,7 +96,7 @@ public class Controller {
     public void initGame(){
     	AnimalEntity playerAnimal = new AnimalEntity(Animal.Shrimp,
     			//new Vector2D(model.getWIDTH()/2,model.getDEPTH() - 5)
-    			new Vector2D(2,4));
+    			new Vector2D(2,11));
     	player = new Player(playerAnimal, new Mouse(window));
     	window.getPanel().setPlayer(player);
     	model.addPlayerAnimal(playerAnimal);
@@ -124,9 +126,26 @@ public class Controller {
     			System.out.println("Player has: " + player.hasWon);
     			openOptions(player.hasWon(), player.hasLost());
     			modelRunning = false;
+    			optionsOpen = true;
     		}
     		if(optionsOpen){
-    			
+    			//check player
+    			if(player.getRestart()){
+    				//breaks out of loop to reach playAgainMethod
+    				break;
+    			}else if(player.getExit()){
+    				this.exitCallBack();
+    			}else if(player.getCont()){
+    				System.out.println("Model should run now");
+    				modelRunning = true;
+    				player.pause = false;
+    				player.hasLost = false;
+    				player.hasWon = false;
+    				player.cont = false;
+    				player.exit = false;
+    				player.restart = false;
+    				optionsOpen = false;
+    			}
     		}
     		//THIS IS  horrible loop stratgey, the absolute worst
     		//TODO: rewrite a proper loop that counts elapsed time....
@@ -137,6 +156,9 @@ public class Controller {
 				e.printStackTrace();
 			}
     	}
+    	//if get here probably restarting... only other things are exit OR CONItinue
+    	//both of which canbe called in the loop
+    	playAgainCallBack();
 //    	System.out.println("open options");
 //    	//Outside loop, either lost, or won, or will eventually add, paused the game
 //    	openOptions(player.hasWon(), player.hasLost());
@@ -162,7 +184,7 @@ public class Controller {
     }
     
     public void exitCallBack(){
-    	// TODO write options
+    	this.window.getFrame().dispatchEvent(new WindowEvent(window.getFrame(), WindowEvent.WINDOW_CLOSING));
     }
 
 	public void continueCallBack() {

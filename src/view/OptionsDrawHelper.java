@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controller.Controller;
+import controller.Player;
 import toolbox.Vector2D;
 
 /**
@@ -39,6 +40,8 @@ public class OptionsDrawHelper {
 	private int exitWidth = 100;
 	private int exitHeight = 50;
 	
+	private Player player;
+	
 //	private Vector2D playAgainPosition = new Vector2D();
 //	private int playAgainWidth = 100;
 //	private int playAgainHeight = 100;
@@ -46,6 +49,9 @@ public class OptionsDrawHelper {
 	public OptionsDrawHelper(JFrame frame){
 		this.frame = frame;
 		
+	}
+	public void setPlayer(Player player){
+		this.player = player;
 	}
 	
 	
@@ -138,15 +144,23 @@ public class OptionsDrawHelper {
 		
 	}
 	
-	private void receiveOnClickData(Vector2D mouseClickLoc){
-		if(playAgainContains(0,0)){
+	protected void receiveOnClickData(Vector2D mouseClickLoc){
+		System.out.println(mouseClickLoc);
+		System.out.println("Recieved on click");
+		if(playAgainContains((int)mouseClickLoc.getX(),(int)mouseClickLoc.getY())){
+			System.out.println("Hit play again");
 			//play again
-			controller.playAgainCallBack();
-		}else if(exitContains(0,0)){
+			player.restart = true;
+		}else if(exitContains((int)mouseClickLoc.getX(),(int)mouseClickLoc.getY())){
+			System.out.println("hit exit");
 			//exit
-			
+			player.exit = true;
 		}else{
+			System.out.println("hit nothing so continue");
 			//continue
+			player.cont = true;
+			
 		}
+		OPEN_OPTIONS_MENU = false;
 	}
 }

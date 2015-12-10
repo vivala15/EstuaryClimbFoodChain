@@ -10,6 +10,11 @@ public class Player implements java.io.Serializable{
 	boolean hasWon = false;
 	boolean hasLost = false;
 	boolean pause = false;
+	
+	public boolean restart = false;
+	public boolean cont = false;
+	public boolean exit = false;
+	
 	Mouse mouse;
 	public Player(AnimalEntity myEntity, Mouse mouse){
 		myEntity.setAsPlayer();
@@ -96,6 +101,7 @@ public class Player implements java.io.Serializable{
 
 
 	public void pauseRound() {
+		System.out.println("called pauseRound in player");
 		this.pause = true;
 		
 	}
@@ -104,6 +110,20 @@ public class Player implements java.io.Serializable{
 	public boolean hasPaused() {
 		// TODO Auto-generated method stub
 		return this.pause;
+	}
+
+
+	public boolean getRestart() {
+		// TODO Auto-generated method stub
+		return this.restart;
+	}
+	
+	public boolean getExit(){
+		return this.exit;
+	}
+	
+	public boolean getCont(){
+		return this.cont;
 	}
 
 

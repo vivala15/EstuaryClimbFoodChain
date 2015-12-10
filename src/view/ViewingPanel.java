@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -41,7 +44,7 @@ public class ViewingPanel extends JPanel{
 	
 	private OptionsDrawHelper options;
 	
-	public ViewingPanel(JFrame frame){
+	public ViewingPanel(final JFrame frame){
 		this.frame = frame;
 		
 		addKeyListener(new KeyListener(){
@@ -62,6 +65,46 @@ public class ViewingPanel extends JPanel{
 		        displayInfo(e, "KEY RELEASED: ");
 		    }
 		});
+		
+		addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Point pointer = e.getPoint();
+				options.receiveOnClickData(new Vector2D(pointer.getX() - frame.getX(),
+														pointer.getY() - frame.getY()));
+				//alright now this is weird...
+				options.receiveOnClickData(new Vector2D(pointer.getX() ,
+											pointer.getY()));
+				//controller.readClick(e);
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		this.setFocusable(true);
 		options = new OptionsDrawHelper(frame);
 	}
@@ -69,6 +112,7 @@ public class ViewingPanel extends JPanel{
 
 	public void setPlayer(Player player){
 		this.player = player;
+		options.setPlayer(player);
 	}
 
 	private void updateCameraShift(){

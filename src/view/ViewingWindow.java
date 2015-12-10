@@ -29,6 +29,7 @@ public class ViewingWindow {
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
+    	frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     	frame.setVisible(true);
 //    	panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "pressed");
 //    	panel.getActionMap().put("pressed", pressedAction );
