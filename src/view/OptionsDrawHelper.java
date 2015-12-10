@@ -63,7 +63,7 @@ public class OptionsDrawHelper {
 	
 	private void paintBackground(Graphics g){
 		
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(Color.decode("#0D47A1"));
 		g.fillRoundRect(frame.getWidth()/2 - 250, frame.getHeight()/2 - 200, 500, 260, 50, 50);
 		
 		
@@ -74,12 +74,12 @@ public class OptionsDrawHelper {
 	    Font font = new Font("Serif", Font.PLAIN, 20);
 	    g2.setFont(font);
 
-	    g.setColor(Color.ORANGE);
+	    g.setColor(Color.decode("#FFD54F"));
 	    g2.drawString(optionDialog, frame.getWidth()/2 - 230, frame.getHeight()/2 - 170); 
 	}
 	
 	private void drawPlayAgainExit(Graphics g){
-		g.setColor(Color.CYAN);
+		g.setColor(Color.decode("#1565C0"));
 		g.fillRoundRect(frame.getWidth()/2 + playAgainPosXOff, frame.getHeight()/2 +playAgainPosYOff ,
 				playAgainWidth, playAgainHeight, 10, 10);
 		

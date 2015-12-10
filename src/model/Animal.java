@@ -204,7 +204,7 @@ public enum Animal implements java.io.Serializable {
 
 		@Override
 		protected void setFieldInfo() {
-			this.setSurfaceLimit(3);
+			this.setSurfaceLimit(4);
 			this.setBottomLimit(18);
 			
 		}
