@@ -8,6 +8,10 @@ import controller.Controller;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
 public class OptionsPanel extends JPanel{
@@ -60,6 +64,7 @@ public class OptionsPanel extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					controller.continueCallBack();
+			    	
 				}
 			});
 			
@@ -68,14 +73,47 @@ public class OptionsPanel extends JPanel{
 		exit = new JButton("Exit");
 		
 		
-		
-		
 		playAgain.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.playAgainCallBack();
+				controller.continueCallBack();
+				
 			}
 		});
+		
+		
+		playAgain.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode() == 10){
+					controller.continueCallBack();
+					controller.intializeWorld();
+			    	controller.initGame();
+			    	controller.run();
+				}
+				
+			}
+		}
+			
+			);
+			
+		
+			
 		exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

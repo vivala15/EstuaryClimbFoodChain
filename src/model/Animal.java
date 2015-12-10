@@ -37,7 +37,7 @@ public enum Animal implements java.io.Serializable {
 		
 		@Override
 		protected void setFieldInfo() {
-			this.setSurfaceLimit(6);
+			this.setSurfaceLimit(8);
 			this.setBottomLimit(3);
 			
 		}
@@ -72,7 +72,7 @@ public enum Animal implements java.io.Serializable {
 		
 		@Override
 		protected void setFieldInfo() {
-			this.setSurfaceLimit(8);
+			this.setSurfaceLimit(10);
 			this.setBottomLimit(3);
 			
 		}
@@ -105,7 +105,7 @@ public enum Animal implements java.io.Serializable {
 		
 		@Override
 		protected void setFieldInfo() {
-			this.setSurfaceLimit(8);
+			this.setSurfaceLimit(10);
 			this.setBottomLimit(3);
 			
 		}
@@ -136,7 +136,7 @@ public enum Animal implements java.io.Serializable {
 		
 		@Override
 		protected void setFieldInfo() {
-			this.setSurfaceLimit(8);
+			this.setSurfaceLimit(10);
 			this.setBottomLimit(3);
 			
 		}
@@ -169,7 +169,7 @@ public enum Animal implements java.io.Serializable {
 		@Override
 		protected void setFieldInfo() {
 			this.setSurfaceLimit(3);
-			this.setBottomLimit(15);
+			this.setBottomLimit(18);
 			
 		}
 		
@@ -205,7 +205,7 @@ public enum Animal implements java.io.Serializable {
 		@Override
 		protected void setFieldInfo() {
 			this.setSurfaceLimit(3);
-			this.setBottomLimit(15);
+			this.setBottomLimit(18);
 			
 		}
 		
@@ -238,8 +238,72 @@ public enum Animal implements java.io.Serializable {
 		
 		@Override
 		protected void setFieldInfo() {
-			this.setSurfaceLimit(5);
-			this.setBottomLimit(4);
+			this.setSurfaceLimit(10);
+			this.setBottomLimit(2);
+			
+		}
+	},
+	
+	Bubble2(1,"bubble2", 100,6, new BrownianMotion(), -5, 10 , .1){
+
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
+			
+		}
+
+		@Override
+		protected void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
+			
+		}
+		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(10);
+			this.setBottomLimit(2);
+			
+		}
+	},
+	
+	Bubble3(1,"bubble3", 100,6, new BrownianMotion(), -5, 10 , .1){
+
+		@Override
+		public void move(AnimalEntity animalEntity, WorldModel model) {
+			this.getMovementStrategy().setMove(animalEntity, model);
+			
+		}
+
+		@Override
+		public void resolveCollision(AnimalEntity animalEntity, WorldModel model) {
+			CollisionHandler.resolveCollision(animalEntity, model, this.getBottomLimit(), this.getSurfaceLimit());
+			
+		}
+
+		@Override
+		protected void assignPrey() {
+			ArrayList<Animal> prey = new ArrayList<Animal>();
+			this.setPreyList(prey);
+			
+			ArrayList<Animal> predator = new ArrayList<Animal>();
+			this.setPredatorList(predator);
+			
+		}
+		
+		@Override
+		protected void setFieldInfo() {
+			this.setSurfaceLimit(10);
+			this.setBottomLimit(2);
 			
 		}
 	};
