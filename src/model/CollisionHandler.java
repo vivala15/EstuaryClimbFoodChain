@@ -32,7 +32,7 @@ public class CollisionHandler {
 	 * within range and are listed as prey for this entity.
 	 */
 	private static void resolveFoodChain(AnimalEntity entity, WorldModel model){
-		List<AnimalEntity> nearbyAnimals = model.getNearbyAnimals(entity.getPosition(), 2);
+		List<AnimalEntity> nearbyAnimals = model.getNearbyAnimals(entity.getPosition(), 1);
 		for(AnimalEntity animEntity : nearbyAnimals){
 			if(animEntity != entity){ //make sure not comparing animal to itself...
 				//definitely not most efficient way but should be fine since small list and 
