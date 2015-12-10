@@ -30,6 +30,7 @@ public class Mouse {
 	}
 	
 	public Vector2D getMousePointerInWorldCoord(){
+		
 		Point pointer = MouseInfo.getPointerInfo().getLocation();
 		return new Vector2D((pointer.getX() - frame.getX() )/ this.worldToPixel - cameraShift.getX(),
 							(pointer.getY() - frame.getY() )/this.worldToPixel - cameraShift.getY());

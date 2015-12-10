@@ -137,9 +137,7 @@ public class AnimalEntity {
 	public int getTotalFoodConsumed() {
 		return totalFoodConsumed;
 	}
-	public int getFoodLevel(){
-		return foodLevel;
-	}
+
 	public boolean isLiving() {
 		return isLiving;
 	}

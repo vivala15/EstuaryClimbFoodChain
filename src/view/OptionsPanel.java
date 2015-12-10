@@ -19,13 +19,32 @@ public class OptionsPanel extends JPanel{
 	JButton continueButton;
 	Controller controller;
 	
-	public OptionsPanel(Controller controller, boolean won, boolean lost) {
+//	public OptionsPanel(Controller controller, boolean won, boolean lost) {
+	public OptionsPanel(Controller controller) {
+
+		boolean won = true;
+		boolean lost = false;
 		this.controller = controller;
 		springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
 		setTextAndCallBack(won, lost);
 		
+	}
+	
+	public OptionsPanel() {
+
+		boolean won = true;
+		boolean lost = false;
+		springLayout = new SpringLayout();
+		setLayout(springLayout);
+		
+		setTextAndCallBack(won, lost);
+		
+	}
+	
+	public void setController(Controller cont){
+		this.controller = cont;
 	}
 	
 	public void setTextAndCallBack(boolean won, boolean lost){

@@ -125,7 +125,7 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 	 * @param prey
 	 */
 	public void removeAnimal(AnimalEntity prey) {
-		System.out.println("remove animal called");
+		//System.out.println("remove animal called");
 		toBeRemoved.add(prey);
 	}
 	

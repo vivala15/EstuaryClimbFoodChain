@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.Controller;
 import controller.Player;
 import model.AnimalEntity;
 import toolbox.Maths;
@@ -36,8 +39,31 @@ public class ViewingPanel extends JPanel{
 	private BufferedImage backgroundImage;
 	private int numberBackgroundTiles;
 	
+	private OptionsDrawHelper options;
+	
 	public ViewingPanel(JFrame frame){
 		this.frame = frame;
+		
+		addKeyListener(new KeyListener(){
+
+			/** Handle the key typed event from the text field. */
+		    public void keyTyped(KeyEvent e) {
+		        displayInfo(e, "KEY TYPED: ");
+		        player.pauseRound();
+		    }
+		 
+		    /** Handle the key pressed event from the text field. */
+		    public void keyPressed(KeyEvent e) {
+		        displayInfo(e, "KEY PRESSED: ");
+		    }
+		 
+		    /** Handle the key released event from the text field. */
+		    public void keyReleased(KeyEvent e) {
+		        displayInfo(e, "KEY RELEASED: ");
+		    }
+		});
+		this.setFocusable(true);
+		options = new OptionsDrawHelper(frame);
 	}
 	
 
@@ -136,10 +162,12 @@ public class ViewingPanel extends JPanel{
 //				(int)(this.getWorldWidth()*this.WORLD_TO_PIXEL),
 //				(int)(this.getWorldHeight()*this.WORLD_TO_PIXEL));
 		
-		
+		options.paintOptions(g);
 		
 		toBeDrawnAnimals.clear();
     }
+	
+	
 	
 	public void drawGui(Graphics g){
 		//food level 
@@ -243,5 +271,53 @@ public class ViewingPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -1759142305649302050L;
 
+//	/** Handle the key typed event from the text field. */
+//    public void keyTyped(KeyEvent e) {
+//        displayInfo(e, "KEY TYPED: ");
+//    }
+// 
+//    /** Handle the key pressed event from the text field. */
+//    public void keyPressed(KeyEvent e) {
+//        displayInfo(e, "KEY PRESSED: ");
+//    }
+// 
+//    /** Handle the key released event from the text field. */
+//    public void keyReleased(KeyEvent e) {
+//        displayInfo(e, "KEY RELEASED: ");
+//    }
+//
+    /*
+     * We have to jump through some hoops to avoid
+     * trying to print non-printing characters 
+     * such as Shift.  (Not only do they not print, 
+     * but if you put them in a String, the characters
+     * afterward won't show up in the text area.)
+     */
+    protected void displayInfo(KeyEvent e, String s){
+        String keyString, modString, tmpString,
+               actionString, locationString;
+ 
+        //You should only rely on the key char if the event
+        //is a key typed event.
+        int id = e.getID();
+        if (id == KeyEvent.KEY_TYPED) {
+            char c = e.getKeyChar();
+            keyString = "key character = '" + c + "'";
+        } else {
+            int keyCode = e.getKeyCode();
+            keyString = "key code = " + keyCode
+                        + " ("
+                        + KeyEvent.getKeyText(keyCode)
+                        + ")";
+        }
+ 
+        System.out.println(s + keyString);
+    }
+
+
+	public void setOptionsView(Controller controller, boolean won, boolean lost) {
+		options.openStopOption(controller, won, lost);
+		
+	}
 
 }

@@ -22,10 +22,11 @@ import view.ViewingWindow;
 public class Controller {
 
 	ViewingWindow window;
-	OptionsPanel panel;
+	//OptionsPanel panel;
 	WorldModel model;
 	AssetLoader loader;
 	Player player;
+	private boolean optionsOpen = false;
 	public static int i = 0;
 	public static GameMode GAME_MODE = GameMode.FIXED_POPULATION;
 	
@@ -104,21 +105,28 @@ public class Controller {
     
     public void run(){
     	
+    	boolean modelRunning = true;
     	/**
     	 * Loop broken on exit, may have to add a button for full screen mode
     	 */
     	while(true){
     		player.readInput();
     		
-    		model.takeStep();
+    		if ( modelRunning){
+    			model.takeStep();
+    		}
     		
     		drawEntities();
     		
     		window.getFrame().repaint();
     		
-    		if(player.hasWon() || player.hasLost()){
+    		if(player.hasWon() || player.hasLost() || player.hasPaused() && modelRunning){
     			System.out.println("Player has: " + player.hasWon);
-    			break;
+    			openOptions(player.hasWon(), player.hasLost());
+    			modelRunning = false;
+    		}
+    		if(optionsOpen){
+    			
     		}
     		//THIS IS  horrible loop stratgey, the absolute worst
     		//TODO: rewrite a proper loop that counts elapsed time....
@@ -129,20 +137,19 @@ public class Controller {
 				e.printStackTrace();
 			}
     	}
-    	System.out.println("open options");
-    	//Outside loop, either lost, or won, or will eventually add, paused the game
-    	openOptions(player.hasWon(), player.hasLost());
+//    	System.out.println("open options");
+//    	//Outside loop, either lost, or won, or will eventually add, paused the game
+//    	openOptions(player.hasWon(), player.hasLost());
     	
     	
     }
 	
     private void openOptions(boolean won, boolean lost){
     	//for now jsut restart
-    	playAgainCallBack();
-
+    	//playAgainCallBack();
+    	System.out.println("open options");
+    	this.window.getPanel().setOptionsView(this, won ,lost);
     	
-//    	panel = new OptionsPanel(this, won, lost);
-//    	this.window.getFrame().getContentPane().add(panel);
     }
     
     public void playAgainCallBack(){

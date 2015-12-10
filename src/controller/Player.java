@@ -9,6 +9,7 @@ public class Player implements java.io.Serializable{
 	AnimalEntity playerEntity;
 	boolean hasWon = false;
 	boolean hasLost = false;
+	boolean pause = false;
 	Mouse mouse;
 	public Player(AnimalEntity myEntity, Mouse mouse){
 		myEntity.setAsPlayer();
@@ -39,6 +40,8 @@ public class Player implements java.io.Serializable{
 
 
 	public void readInput() {
+		
+		
 		setDirectionWithMouse();
 		
 		//Did we die?
@@ -89,6 +92,18 @@ public class Player implements java.io.Serializable{
 	public boolean hasLost() {
 		// TODO Auto-generated method stub
 		return this.hasLost;
+	}
+
+
+	public void pauseRound() {
+		this.pause = true;
+		
+	}
+
+
+	public boolean hasPaused() {
+		// TODO Auto-generated method stub
+		return this.pause;
 	}
 
 
