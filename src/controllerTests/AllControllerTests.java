@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import controller.Controller;
 import controller.Player;
+import controller.PopulationSimulation;
 import model.Animal;
 import model.AnimalEntity;
 import toolbox.Mouse;
@@ -17,10 +19,7 @@ public class AllControllerTests {
 	public void testAssetLoader() {
 		
 	}
-	@Test
-	public void testController() {
-		
-	}
+
 	@Test
 	public void testPlayer() {
 		ViewingWindow view = new ViewingWindow();
@@ -51,6 +50,17 @@ public class AllControllerTests {
 	
 	@Test
 	public void testPopulationSimulation() {
+		PopulationSimulation tester = new PopulationSimulation();
+		tester.run();
+	}
+	
+	@Test
+	public void testController() {
+		Controller tester = new Controller();
+		tester.intializeWorld();
+		tester.initGame();
+		tester.drawEntities();
+//		tester.run();
 		
 	}
 }
