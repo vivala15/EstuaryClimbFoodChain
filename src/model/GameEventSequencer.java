@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * 
+ * NOT USED
+ *@deprecated
+ */
 public class GameEventSequencer {
 	
 	

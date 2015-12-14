@@ -24,6 +24,11 @@ import model.AnimalEntity;
 import toolbox.Maths;
 import toolbox.Vector2D;
 
+/**
+ * View panel that handles drawing to the screen for the game and the mechanics of the viewing
+ * camera within the game world
+ *
+ */
 public class ViewingPanel extends JPanel{
 
 	private double WORLD_TO_PIXEL = 100; 
@@ -35,18 +40,26 @@ public class ViewingPanel extends JPanel{
 	private double worldHeight;
 	
 	private Player player;
+	//xy shift of the camera within game world
 	private Vector2D cameraShift = new Vector2D();
 	
 	private JFrame frame;
 	
 	private BufferedImage backgroundImage;
+	//how much to tile the background image
 	private int numberBackgroundTiles;
 	
 	private OptionsDrawHelper options;
 	
+	
+	/**
+	 * takes frame and creates the view panel
+	 * @param frame
+	 */
 	public ViewingPanel(final JFrame frame){
 		this.frame = frame;
 		
+		//Add keylisterner allowing player to puase game
 		addKeyListener(new KeyListener(){
 
 			/** Handle the key typed event from the text field. */
@@ -66,6 +79,7 @@ public class ViewingPanel extends JPanel{
 		    }
 		});
 		
+		//add mouse listerner to reAD IN mouse clicks for picking options in menu
 		addMouseListener(new MouseListener(){
 
 			@Override
@@ -115,6 +129,9 @@ public class ViewingPanel extends JPanel{
 		options.setPlayer(player);
 	}
 
+	/**
+	 * Set camera shift based on position of mouse and player
+	 */
 	private void updateCameraShift(){
 		Vector2D x = this.player.getPlayerEntity().getPosition();
 		Vector2D y = player.getMouse().getMousePointerInWorldCoord();
@@ -154,10 +171,7 @@ public class ViewingPanel extends JPanel{
 		toBeDrawnAnimals.add(entity);
 	}
 	
-	//Override this JPanel's paint method to cycle through picture array and draw images
-	/**
-	 * 
-	 */
+
 	@Override
     public void paint(Graphics g) {
 		updateCameraShift();
@@ -207,12 +221,15 @@ public class ViewingPanel extends JPanel{
 //				(int)(this.getWorldHeight()*this.WORLD_TO_PIXEL));
 		
 		options.paintOptions(g);
-		
+		//clear, drawn entities added each time
 		toBeDrawnAnimals.clear();
     }
 	
 	
-	
+	/**
+	 * Draw the food bar and text for it
+	 * @param g
+	 */
 	public void drawGui(Graphics g){
 		//food level 
 		//backdrop
@@ -250,24 +267,6 @@ public class ViewingPanel extends JPanel{
 		WORLD_TO_PIXEL = wORLD_TO_PIXEL;
 	}
 	
-//	public double getWorldEdgeViewH() {
-//		return worldEdgeViewH;
-//	}
-//
-//
-//	public void setWorldEdgeViewH(double worldEdgeViewH) {
-//		this.worldEdgeViewH = worldEdgeViewH;
-//	}
-//
-//
-//	public double getWorldEdgeViewV() {
-//		return worldEdgeViewV;
-//	}
-//
-//
-//	public void setWorldEdgeViewV(double worldEdgeViewV) {
-//		this.worldEdgeViewV = worldEdgeViewV;
-//	}
 
 	public double getWorldWidth() {
 		return worldWidth;
@@ -288,6 +287,10 @@ public class ViewingPanel extends JPanel{
 		this.worldHeight = worldHeight;
 	}
 
+	/**
+	 * Set background image scaling/tiling it to fit nicely
+	 * @param seqImage
+	 */
 	public void setBackgroundImage(BufferedImage seqImage) {
 		//backgroundImage = seqImage;
 		//int imageHeight = backgroundImage.getHeight();
@@ -315,21 +318,6 @@ public class ViewingPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -1759142305649302050L;
 
-//	/** Handle the key typed event from the text field. */
-//    public void keyTyped(KeyEvent e) {
-//        displayInfo(e, "KEY TYPED: ");
-//    }
-// 
-//    /** Handle the key pressed event from the text field. */
-//    public void keyPressed(KeyEvent e) {
-//        displayInfo(e, "KEY PRESSED: ");
-//    }
-// 
-//    /** Handle the key released event from the text field. */
-//    public void keyReleased(KeyEvent e) {
-//        displayInfo(e, "KEY RELEASED: ");
-//    }
-//
     /*
      * We have to jump through some hoops to avoid
      * trying to print non-printing characters 

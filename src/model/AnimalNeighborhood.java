@@ -8,6 +8,14 @@ import java.util.List;
 
 import toolbox.Vector2D;
 
+
+/**
+ * A data structure for holding all the animals in hashed buckets so its faster to find
+ * neighbors because all animals require a nearest neighbor search for predator/prey interactions.
+ * Animals pushed into 10 equally spaced buckets based on their x position.
+ * @author chris
+ *
+ */
 public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 
 	//HashMap for fast lookup when map densely populated
@@ -50,6 +58,11 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 		return hasNext;
 	}
 
+	/**
+	 * Check next bucket that isn't empty- used in the iterator for determining next animal
+	 * @param bucketNumber
+	 * @return
+	 */
 	public int nextNonEmptyBucket(int bucketNumber){
 		while(creatureEntities.get(bucketNumber%numberOfBuckets).isEmpty() && bucketNumber < numberOfBuckets){
 			bucketNumber++;
@@ -68,6 +81,11 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 		try{
 			animal = bucket.get(entityCursor);
 		}catch(Exception e){
+			//used for debugging -- crashes if first bucket empty, with bubbles it never is
+			//soooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+			//remember that story about the cruise missle that had a bad clock and needed
+			//restarting at midnight, well lets just say its a good thing no one's life
+			//depends on this game
 			System.out.println("Entity Cursor: " + entityCursor);
 			System.out.println("Bucket Cursor: " + bucketCursor);
 			System.out.println("BucketNum: " + bucketCursor%numberOfBuckets);
@@ -89,6 +107,10 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 		
 	}
 
+	/**
+	 * Add animal by putting it into the right bucket
+	 * @param entity
+	 */
 	public void addAnimal(AnimalEntity entity) {
 		double x = entity.getPosition().getX();
 		int bucket = (int) ( x/this.width * this.numberOfBuckets);
@@ -148,6 +170,7 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 				if(bucket < this.numberOfBuckets-1 && !removed){
 					removed = this.creatureEntities.get(bucket+1).remove(prey);
 				}
+				//Yeah for some reason these errors called but hey game runs fine so....
 				if(removed){
 					System.err.println("Found in a neighboring bucket");
 				}else{
@@ -163,9 +186,9 @@ public class AnimalNeighborhood implements Iterator<AnimalEntity>{
 	 * I would just like to say I am especially ashamed of this method and its poor
 	 * coding quality, actually most of this class for that matter, there are so
 	 * many better and safer ways to carry out these operations
-	 * @param position
-	 * @param rangeVector2D
-	 * @return
+	 * @param position get nearest animals to this position
+	 * @param rangeVector2D NOT ACTUALLY USED, JUST PULLS FROM CENTER AND NEAREST BUCKETS
+	 * @return list of animals within neighboring buckets
 	 */
 	public LinkedList<AnimalEntity> getNearAnimals(Vector2D position, double rangeVector2D ){
 		//determine bucket of interest -- pushing result to 0 or 10 if under or over

@@ -6,6 +6,13 @@ import controller.Controller;
 import controller.GameMode;
 import toolbox.Vector2D;
 
+/**
+ * Animal entity class holds the position and direction of a specific entity and also its
+ * variable food level. While animations held in Animal, they are accessed from here
+ * because specific entity direction and alive/death set here
+ * 
+ *
+ */
 public class AnimalEntity {
 
 
@@ -30,8 +37,14 @@ public class AnimalEntity {
 	
 	public long timeOfLastMove = 0;
 	
+	//Enum flyweight
 	public Animal myFlyweight;
 	
+	/**
+	 * Take enum as type of animal and starting position
+	 * @param myFlyweight type of animal
+	 * @param position starting position in world
+	 */
 	public AnimalEntity(Animal myFlyweight, Vector2D position){
 		this.position = position;
 		this.direction = new Vector2D(0, 0);
@@ -42,28 +55,42 @@ public class AnimalEntity {
 		this.foodLevel = this.myFlyweight.getFoodRepro() /2.0;
 	}
 	
+	/**
+	 * Changes animal and resets relevant data - used by player for upgrading species
+	 * @param newAnimal
+	 */
 	public void changeAnimal(Animal newAnimal){
 		this.myFlyweight = newAnimal;
 		this.maxAnimationFrame = this.myFlyweight.getMaxAnimationFrame();
 	}
 	/**
-	 * More shit code for the shit hack
+	 * A not elegant way of checking which entity is the player
 	 */
 	public void setAsPlayer(){
 		this.isPlayer = true;
 	}
+	/**
+	 * Called by model to step forward in time
+	 * @param dt
+	 * @param model
+	 */
 	public void takeStep(float dt, WorldModel model){
 		//this is a shit hack, but 12 hrs to go....
 		if(!isPlayer){
+			// do not want to update the player direction because that is alreayd set
+			//by the player class, doing this also causes jittery behavior 
 			this.myFlyweight.move(this, model);
 		}
+		//Integrate , update position based on speed and direction and time
 		this.position.addX(speedMultiplier*this.myFlyweight.getSpeed()* direction.getX() * dt);
 		this.position.addY(speedMultiplier*this.myFlyweight.getSpeed()* direction.getY() * dt);
 		
+		//resolve any collision like edge or food
 		this.myFlyweight.resolveCollision(this, model);
-		
+		//update animation frame
 		this.animationFrame = (this.animationFrame+1) % this.maxAnimationFrame;
 		
+		//pop feedback not run right now
 		if(Controller.GAME_MODE == GameMode.POPULATION_FEEDBACK){
 
 			if (this.foodLevel >= this.myFlyweight.getFoodRepro()) {
@@ -90,11 +117,19 @@ public class AnimalEntity {
 		return this.foodLevel < 0;
 	}
 	
+	/**
+	 * Remove amount of food multiplying starvation and rate and dt
+	 * @param dt
+	 */
 	public void depleteFood(float dt){
 		this.foodLevel -= dt* this.starvationRate;
 		
 	}
 	
+	/**
+	 * Get drawable based on the entities direction, number in sequence, or dead
+	 * @return the bufferedImageto be drawn to screen
+	 */
 	public BufferedImage getDrawable(){
 		if(this.isOilContamination()){
 			return this.myFlyweight.getDeadDrawable();
@@ -125,6 +160,10 @@ public class AnimalEntity {
 		this.direction = direction;
 	}
 	
+	/**
+	 * Update food level basedo n consumed animals value
+	 * @param darwinsLoser
+	 */
 	public void digestAnimal(AnimalEntity darwinsLoser){
 		
 		this.foodLevel += darwinsLoser.myFlyweight.getFoodValue();
@@ -150,6 +189,10 @@ public class AnimalEntity {
 		return oilContamination;
 	}
 
+	/**
+	 * Set oil contamination by updating boolean and changing speed modifier
+	 * @param oilContamination
+	 */
 	public void setOilContamination(boolean oilContamination) {
 		if(oilContamination){
 			speedMultiplier = .2;

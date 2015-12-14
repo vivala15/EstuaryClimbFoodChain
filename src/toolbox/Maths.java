@@ -1,5 +1,9 @@
 package toolbox;
 
+/**
+ * Helper class for some math funcitions
+ *
+ */
 public class Maths {
 
 	

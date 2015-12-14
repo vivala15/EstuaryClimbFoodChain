@@ -14,11 +14,12 @@ import controller.Player;
 import toolbox.Vector2D;
 
 /**
- * I can't use swing and it sucks so going hard old school ... this is going to be very very
+ * 
+ * Draws the option menu and checks when clicks whether they selected a button or not
+ * 
+ * can't use swing and it sucks so going hard old school ... this is going to be very very
  * hacky
  * 
- * SUPER HASH TAG -- PRE MADE MENUS ARE FOR SQUARES --
- * @author chris
  *
  */
 public class OptionsDrawHelper {
@@ -42,9 +43,6 @@ public class OptionsDrawHelper {
 	
 	private Player player;
 	
-//	private Vector2D playAgainPosition = new Vector2D();
-//	private int playAgainWidth = 100;
-//	private int playAgainHeight = 100;
 	
 	public OptionsDrawHelper(JFrame frame){
 		this.frame = frame;
@@ -54,7 +52,10 @@ public class OptionsDrawHelper {
 		this.player = player;
 	}
 	
-	
+	/**
+	 * If painting turned on then draw the buttons and options meunu
+	 * @param g
+	 */
 	public void paintOptions(Graphics g){
 		
 		
@@ -67,6 +68,10 @@ public class OptionsDrawHelper {
 		
 	}
 	
+	/**
+	 * Colors background of menu
+	 * @param g
+	 */
 	private void paintBackground(Graphics g){
 		
 		g.setColor(Color.decode("#0D47A1"));
@@ -84,6 +89,10 @@ public class OptionsDrawHelper {
 	    g2.drawString(optionDialog, frame.getWidth()/2 - 230, frame.getHeight()/2 - 170); 
 	}
 	
+	/**
+	 * Colors in the buttons
+	 * @param g
+	 */
 	private void drawPlayAgainExit(Graphics g){
 		g.setColor(Color.decode("#1565C0"));
 		g.fillRoundRect(frame.getWidth()/2 + playAgainPosXOff, frame.getHeight()/2 +playAgainPosYOff ,
@@ -105,7 +114,12 @@ public class OptionsDrawHelper {
 		
 	}
 
-	
+	/**
+	 * inside the playagain button?
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	private boolean playAgainContains(int x, int y){
 		if (frame.getWidth()/2 + playAgainPosXOff + playAgainWidth >x &&
 				x  > frame.getWidth()/2 + playAgainPosXOff &&
@@ -116,6 +130,12 @@ public class OptionsDrawHelper {
 		return false;
 	}
 	
+	/**
+	 * inside the exit button?
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	private boolean exitContains(int x, int y){
 		if (frame.getWidth()/2 +exitPositionXOff + exitWidth >x &&
 				x  >frame.getWidth()/2 +exitPositionXOff &&
@@ -126,13 +146,22 @@ public class OptionsDrawHelper {
 		return false;
 	}
 
-
+	/**
+	 * sets open options to true and the dialogue accordingly
+	 * @param controller
+	 * @param won
+	 * @param lost
+	 */
 	public void openStopOption(Controller controller, boolean won, boolean lost) {
 		this.controller = controller;
 		setDialogueText(won,lost);
 		OPEN_OPTIONS_MENU = true;
 	}
-	
+	/**
+	 * set dialogue based on whether person has won lost, or neither and just paused
+	 * @param won
+	 * @param lost
+	 */
 	private void setDialogueText(boolean won, boolean lost){
 		if(won){
 			optionDialog = "Congrats - you Won!";
@@ -144,6 +173,10 @@ public class OptionsDrawHelper {
 		
 	}
 	
+	/**
+	 * read in mouse clickc coordinates and set if hit any of the buttons
+	 * @param mouseClickLoc
+	 */
 	protected void receiveOnClickData(Vector2D mouseClickLoc){
 		System.out.println(mouseClickLoc);
 		System.out.println("Recieved on click");

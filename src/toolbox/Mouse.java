@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import view.ViewingWindow;
 
 /**
- * Because making a common sense moue is just too much for swing despite all the 
+ * Because making a common sense mouse is just too much for swing despite all the 
  * other shit they think they should automatically create
  * @author chris
  *

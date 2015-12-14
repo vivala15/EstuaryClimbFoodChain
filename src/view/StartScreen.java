@@ -16,7 +16,10 @@ import com.thehowtotutorial.splashscreen.JSplash;
 
 import controller.Controller;
 
-
+/**
+ * Start screen opens a frame with option to start the game...
+ *
+ */
 public class StartScreen extends JFrame {
 
 	public StartScreen() {

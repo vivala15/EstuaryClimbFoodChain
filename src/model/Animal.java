@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Acts as flyweights for each animal species
+ * Acts as flyweights for each animal species holding general per species charachteristics and
+ * animation data
+ * "we don't write object hierarchies to satisfy our inner Linnaeus." --reddit
  * @author chris
  *
  */
@@ -344,6 +346,40 @@ public enum Animal implements java.io.Serializable {
 		//already been contucted as assignPrey calls them... wow that  I learned
 		//this.assignPrey();
 	}
+	
+	/**
+	 * Calls a movemeent strategy to set the direction of the animal entity - the actual
+	 * movement is called separately and just integrates a velocity, but this sets the that
+	 * direction
+	 * @param animalEntity entity to have its animal specific direction set
+	 * @param model include world data incase that's relevant to its motion strategy
+	 */
+	public abstract void move(AnimalEntity animalEntity, WorldModel model );
+	/**
+	 * Resolve any collision the animal may have had including interactions with other 
+	 * animals and world edge collisions
+	 * @param animalEntity amimal to have collisions resolved
+	 * @param model model included for info about world like nearby animals and edges
+	 */
+	public abstract void resolveCollision(AnimalEntity animalEntity, WorldModel model );
+	/**
+	 * A separate method required to set predators and prey because all the enums
+	 * aren't instantiated when some are in their constructors... due, so these
+	 * values have to be set after animal constructed...
+	 */
+	protected abstract void assignPrey();
+	/**
+	 * A helper method for setting more data that just became ridiculous to set 
+	 * in the constructor... sort of like a factory but because its an enum with specific
+	 * per data just used this method to set that extra stuff
+	 */
+	protected abstract void setFieldInfo(); //because its uncanny to put everything in one line
+	
+	/* ********************************************************************************/
+	//Just getters and setters below
+	
+	
+	
 	public MovementStrategy getMovementStrategy(){
 		return this.ms;
 	}
@@ -401,12 +437,6 @@ public enum Animal implements java.io.Serializable {
 	public void setFoodValue(int foodValue) {
 		this.foodValue = foodValue;
 	}
-	
-	
-	public abstract void move(AnimalEntity animalEntity, WorldModel model );
-	public abstract void resolveCollision(AnimalEntity animalEntity, WorldModel model );
-	protected abstract void assignPrey();
-	protected abstract void setFieldInfo(); //because its uncanny to put everything in one line
 	
 	public int getFoodRepro() {
 		return foodRepro;

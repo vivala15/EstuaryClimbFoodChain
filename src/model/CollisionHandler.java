@@ -10,8 +10,12 @@ import java.util.List;
 public class CollisionHandler {
 
 	
-	/*
-	 
+	/**
+	 * take entity and resolve edge collision and food change if within range of prey
+	 * @param entity entity to resolvecolliion
+	 * @param model world info
+	 * @param depthLimitFromBottom extra offset for edge collision from bottom
+	 * @param depthLimitFromSurface  extra offset for edge collision from top
 	 */
 	public static void resolveCollision(AnimalEntity entity, WorldModel model,
 			double depthLimitFromBottom, double depthLimitFromSurface){
@@ -20,6 +24,14 @@ public class CollisionHandler {
 		resolveFoodChain( entity, model);
 	}
 	
+	/**
+	 * Strategy only used by oil - makes sure it stays in proper zone and then checks
+	 * whether to attach to nearby neighbors based on their type
+	 * @param entity
+	 * @param model
+	 * @param depthLimitFromBottom
+	 * @param depthLimitFromSurface
+	 */
 	public static void resolveOilCollision(AnimalEntity entity, WorldModel model,
 			double depthLimitFromBottom, double depthLimitFromSurface){
 		resolveEdgeCollisions( entity,  model,depthLimitFromBottom,  depthLimitFromSurface);
@@ -27,9 +39,11 @@ public class CollisionHandler {
 		
 	}
 	
-	/*
+	/**
 	 * Searches local area for neighbors and calls relevant eating methods if they are
 	 * within range and are listed as prey for this entity.
+	 * @param entity entity that is feeding
+	 * @param model model for world info
 	 */
 	private static void resolveFoodChain(AnimalEntity entity, WorldModel model){
 		List<AnimalEntity> nearbyAnimals = model.getNearbyAnimals(entity.getPosition(), 1);
@@ -48,7 +62,13 @@ public class CollisionHandler {
 		
 	}
 	
-	
+	/**
+	 * Check if near edge, adjust direction if outside acceptable zones
+	 * @param entity entity to be checked for edge breaking
+	 * @param model model world
+	 * @param depthLimitFromBottom extra distance species should not cross at bottom
+	 * @param depthLimitFromSurface extra distance species should not cross at top, no flying fish
+	 */
 	public static void resolveEdgeCollisions(AnimalEntity entity, WorldModel model,
 			double depthLimitFromBottom, double depthLimitFromSurface){
 		//Check if over edges, if so flip direction
@@ -68,7 +88,12 @@ public class CollisionHandler {
 		}
 	}
 	
-	
+	/**
+	 * Oil has slightly different collision, follows same format as predator prey method
+	 * above but sets a few more features such as setting oil contamination
+	 * @param entity SHOULD BE AN OIL ENTITY
+	 * @param model world info
+	 */
 	private static void oilAttach(AnimalEntity entity, WorldModel model){
 		List<AnimalEntity> nearbyAnimals = model.getNearbyAnimals(entity.getPosition(), 2);
 		for(AnimalEntity animEntity : nearbyAnimals){

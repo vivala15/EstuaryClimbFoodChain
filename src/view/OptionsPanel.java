@@ -14,6 +14,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
+
+/**
+ * 
+ * Not used, just ended up drawing a custom menu
+ * 
+ * @deprecated
+ *
+ */
 public class OptionsPanel extends JPanel{
 	
 	JLabel optionDialog;

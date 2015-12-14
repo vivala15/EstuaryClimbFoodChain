@@ -1,5 +1,10 @@
 package toolbox;
 
+/**
+ * Vector2D class for holding a 2d vector and commonly used operations
+ * @author chris
+ *
+ */
 public class Vector2D {
 
 	private double x;

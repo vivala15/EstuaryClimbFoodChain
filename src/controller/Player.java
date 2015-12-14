@@ -4,6 +4,12 @@ import model.AnimalEntity;
 import toolbox.Mouse;
 import toolbox.Vector2D;
 
+/**
+ * Player handles input from player and holds the entity controlled by the player. Checks user
+ * input and win/lose conditions
+ * 
+ *
+ */
 public class Player implements java.io.Serializable{
 
 	AnimalEntity playerEntity;
@@ -16,13 +22,20 @@ public class Player implements java.io.Serializable{
 	public boolean exit = false;
 	
 	Mouse mouse;
+	/**
+	 * Takes animal entity to be controlled by player and mouse object for reading input
+	 * @param myEntity
+	 * @param mouse
+	 */
 	public Player(AnimalEntity myEntity, Mouse mouse){
 		myEntity.setAsPlayer();
 		this.playerEntity = myEntity;
 		this.mouse = mouse;
 	}
 	
-	
+	/**
+	 * Read mouse coorindates and set direction between mouse ptr and player location
+	 */
 	private void setDirectionWithMouse(){
 		Vector2D pointer = mouse.getMousePointerInWorldCoord();
 		
@@ -30,23 +43,23 @@ public class Player implements java.io.Serializable{
 		playerEntity.getDirection().setX(pointer.getX() - position.getX());
 		playerEntity.getDirection().setY(pointer.getY() - position.getY());
 		if(playerEntity.getDirection().getL2() < .4){
+			//if mouse close to player set direction to zero to stop player from moving
 			playerEntity.getDirection().setX(0);
 			playerEntity.getDirection().setY(0);
 		}else{
+			//normalize otherwise artifcats in velocity
 			playerEntity.getDirection().normalize();
 		}
-//		System.out.println(playerEntity.getDirection().getX());
-//		System.out.println(playerEntity.getDirection().getY());
-//		System.out.println(pointer);
-//		System.out.println(position);
-//		playerEntity.setPosition(new Vector2D(pointer.getX(), pointer.getY()));
 		
 	}
 
 
+	/**
+	 * Read mouse input and set direction and whether upgrade or loss should be set
+	 */
 	public void readInput() {
 		
-		
+		//set direction
 		setDirectionWithMouse();
 		
 		//Did we die?
@@ -57,13 +70,19 @@ public class Player implements java.io.Serializable{
 		
 	}
 	
+	/**
+	 * Check if player's animal is still alive, if not set boolean hasLost to true
+	 */
 	private void checkIfAlive(){
 		if(!this.playerEntity.isLiving()){
 			this.hasLost = true;
 		}
 	}
 	
-	
+	/**
+	 * Check if food levels are at reproduction level (species upgrade for player), if so
+	 * upgrade the animals
+	 */
 	private void isEnoughFoodForLevelUp(){
 		//Check if enough food for an upgrade...
 		if(playerEntity.getFoodLevel() > playerEntity.myFlyweight.getFoodRepro()){

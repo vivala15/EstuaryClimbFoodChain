@@ -8,6 +8,12 @@ import java.util.Random;
 
 import toolbox.Vector2D;
 
+/**
+ * 
+ * World model holds the bucket reference and handles addition and removal of species
+ * into and out of the world
+ *
+ */
 public class WorldModel implements Iterable<AnimalEntity>{
 	
 	//HashMap for fast lookup when map densely populated
@@ -17,7 +23,10 @@ public class WorldModel implements Iterable<AnimalEntity>{
 	private static double WIDTH = 80;
 	private Random rand;
 	
-	
+	/**
+	 * Create the hashed bucket system and assign some stuff in the animal enum because
+	 * where else would we do that
+	 */
 	public WorldModel(){
 		neighborhood = new AnimalNeighborhood(WIDTH);
 		rand = new Random();
@@ -28,13 +37,16 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		eventScheduler = new GameEventSequencer(this);
 	}
 
+	/**
+	 * Take a step in model
+	 */
 	public void takeStep(){
-		
+		//update neighborhood, - remember hashed buckets
 		this.neighborhood.updateNeighborhood();
 		
 		
 		
-		
+		//for each animal update its position
 		for(AnimalEntity animal: this){
 			
 			animal.takeStep(.05f, this);
@@ -44,13 +56,13 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		this.neighborhood.executeRemoveAnimals();
 		
 		//if any animals need to added or replaced , do that here
-//		System.out.println("replenish");
-//		System.out.println(Animal.Seal.getNumberOfSpecies());
-//		System.out.println(Animal.Fish.getNumberOfSpecies());
 		replenishWildLife();
 	}
 	
 	
+	/**
+	 * Replace consumed animals to their required rate
+	 */
 	public void replenishWildLife(){
 		//System.out.println("Call replenish");
 		for(Animal animal : Animal.values()){
@@ -62,9 +74,15 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		}
 	}
 
+	/**
+	 * Add animal at random allowable position of type flywieght given
+	 * @param animalFlyweightType type of new animal
+	 */
 	public void addAnimal(Animal animalFlyweightType){
+		//increment species counter
 		animalFlyweightType.setNumberOfSpecies(animalFlyweightType.getNumberOfSpecies() + 1);
 		//int highestAllowableY = animalFlyweightType.get
+		//create entity with random position within limits
 		AnimalEntity entity = new AnimalEntity(animalFlyweightType,
 				new Vector2D(rand.nextDouble()*WIDTH, 
 						animalFlyweightType.getSurfaceLimit()+ rand.nextDouble()*
@@ -72,8 +90,13 @@ public class WorldModel implements Iterable<AnimalEntity>{
 								animalFlyweightType.getBottomLimit())));
 		neighborhood.addAnimal(entity);
 	}
-	
+	/**
+	 * Add animal at given location of type given
+	 * @param animalFlyweightType type of new animal
+	 * @param location starting position
+	 */
 	public void addAnimal(Animal animalFlyweightType, Vector2D location){
+		//increment species counter
 		animalFlyweightType.setNumberOfSpecies(animalFlyweightType.getNumberOfSpecies() + 1);
 		//mod by width and depth to make sure its not out of world... is that actually
 		//desirable, mabye do want outside????
@@ -82,6 +105,10 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		neighborhood.addAnimal(entity);
 	}
 	
+	/**
+	 * Add player animal, actually could be used to add any already created entity
+	 * @param entity
+	 */
 	public void addPlayerAnimal(AnimalEntity entity){
 		entity.myFlyweight.setNumberOfSpecies(entity.myFlyweight.getNumberOfSpecies() + 1);
 		this.neighborhood.addAnimal(entity);
@@ -93,7 +120,12 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		return neighborhood;
 	}
 	
-	
+	/**
+	 * Get all nearby aniamls in world within the given range from the position
+	 * @param position position from where to check
+	 * @param range range of how close animals shouldbe to return them
+	 * @return
+	 */
 	public List<AnimalEntity> getNearbyAnimals(Vector2D position, double range){
 		//gets all in adjacent buckets
 		LinkedList<AnimalEntity> list =  this.neighborhood.getNearAnimals(position, range);	
@@ -116,7 +148,10 @@ public class WorldModel implements Iterable<AnimalEntity>{
 		return WIDTH;
 	}
 
-	
+	/**
+	 * Consumed prey decrements species counter and removes them from the bucket
+	 * @param prey
+	 */
 	public void wasConsumed(AnimalEntity prey){
 		prey.myFlyweight.setNumberOfSpecies(prey.myFlyweight.getNumberOfSpecies() - 1);
 		this.neighborhood.removeAnimal(prey);

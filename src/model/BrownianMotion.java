@@ -5,6 +5,12 @@ import java.util.Random;
 
 import toolbox.Vector2D;
 
+/**
+ * 
+ * A movement strategy that updates the direction of the animal to a random direction
+ * every given period of time given as a field
+ *
+ */
 public class BrownianMotion implements MovementStrategy{
 
 	 Calendar cal = Calendar.getInstance();

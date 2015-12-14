@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.KeyStroke;
 
+/**
+ * Holder for the jframe and sets some initial values
+ *
+ */
 public class ViewingWindow {
 
 	
@@ -18,6 +22,9 @@ public class ViewingWindow {
 //	OptionsPanel optionPanel;
 //	JLayeredPane layeredPane;
     
+	/**
+	 * Create a frame window and viewing panel and set some initial values
+	 */
     public void initializeWindow(){
     	frame = new JFrame();
 

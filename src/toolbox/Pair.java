@@ -1,5 +1,12 @@
 package toolbox;
 
+/**
+ * not actually used....
+ *seemed like it would havebeen at some point
+ *
+ * @param <L>
+ * @param <R>
+ */
 public class Pair<L,R> {
 	
 
